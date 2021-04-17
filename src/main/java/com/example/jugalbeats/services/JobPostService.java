@@ -64,7 +64,7 @@ public class JobPostService {
 		if(Objects.isNull(post)) {
 	        return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE, "job not found");
 		}
-		jobPostRepository.delete(post);
+		jobPostRepository.deleteById(id);
         return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE,"job post deleted successfully");
 	}
 

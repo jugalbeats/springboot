@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.example.jugalbeats.dao.FAQsRepository;
 import com.example.jugalbeats.dao.UsersDao;
 import com.example.jugalbeats.models.FAQs;
+import com.example.jugalbeats.models.JobPost;
 import com.example.jugalbeats.models.UsersModel;
 import com.example.jugalbeats.pojo.ApiResponse;
 import com.example.jugalbeats.pojo.FAQsRequest;
@@ -44,5 +45,15 @@ public class FAQsService {
 	    List<FAQs>workList=faqsRepository.findByUserName(userName);
         return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE,workList);
 		
+	}
+
+	public ApiResponse deleteFAQsById(String username, long id) {
+		FAQs post=faqsRepository.findFaqByUsernameAndFaqId(username, id);
+		if(Objects.isNull(post)) {
+	        return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE, "no data found");
+		}
+		faqsRepository.deleteById(id);
+        return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE,"Faq deleted successfully");
+	
 	}
 }

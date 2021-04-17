@@ -4,6 +4,7 @@ import com.example.jugalbeats.pojo.ApiResponse;
 import com.example.jugalbeats.pojo.MusicianForm;
 import com.example.jugalbeats.pojo.MusicianResponse;
 import com.example.jugalbeats.pojo.RegistrationForm;
+import com.example.jugalbeats.pojo.model.PriceInfo;
 import com.example.jugalbeats.services.MusicianDashboardServices;
 import com.example.jugalbeats.utils.Constants;
 
@@ -12,6 +13,7 @@ import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,6 +53,15 @@ public class MusicianDashBoardController {
     public ApiResponse updateData(@RequestBody MusicianForm musicianForm,@PathVariable("username") String username) {
         try {
             return musicianDashboardServices.updateData(musicianForm,username);
+        } catch (Exception e) {
+            return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE);
+        }
+    }
+    
+    @DeleteMapping("/price/{username}")
+    public ApiResponse deletePrice(@RequestBody PriceInfo price,@PathVariable("username") String username) {
+        try {
+            return musicianDashboardServices.deletePrice(price,username);
         } catch (Exception e) {
             return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE);
         }

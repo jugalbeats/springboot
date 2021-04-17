@@ -11,8 +11,13 @@ import com.example.jugalbeats.models.WorkUpload;
 import com.example.jugalbeats.pojo.ApiResponse;
 import com.example.jugalbeats.pojo.MusicianForm;
 import com.example.jugalbeats.pojo.MusicianResponse;
+import com.example.jugalbeats.pojo.model.PriceInfo;
+import com.example.jugalbeats.pojo.model.UserSongs;
 import com.example.jugalbeats.utils.Constants;
 import com.example.jugalbeats.utils.Utils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -200,5 +205,23 @@ public class MusicianDashboardServices {
         
         return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE);
     }
+
+	public ApiResponse deletePrice(PriceInfo price, String username) {
+		// TODO Auto-generated method stub
+		
+		UserSpecification spec= userSpecificationDao.findByUserName(username);
+		 if(Objects.isNull(spec)) {
+	            return new ApiResponse(Constants.FAILURE_CODE, Constants.NOT_FOUND_MESSAGE,"Does not exists");
+	        }
+		List<PriceInfo>prices=spec.getPriceList();
+		prices.remove(price);
+		Gson gson =new Gson();
+		
+		spec.setPriceList(prices==null?null:gson.toJson(prices));
+		userSpecificationDao.save(spec);
+        return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE,"deleted successfully");
+
+		
+	}
 
 }

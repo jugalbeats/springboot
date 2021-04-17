@@ -3,6 +3,7 @@ package com.example.jugalbeats.controllers;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +25,7 @@ public class FAQsController {
 	@Autowired
 	FAQsService faqsService;
 	 @PostMapping()
-	    public ApiResponse createJob(@RequestBody FAQsRequest request) {
+	    public ApiResponse createFaq(@RequestBody FAQsRequest request) {
 		         ApiResponse response=faqsService.addFAQs(request);
 		         if(Objects.nonNull(response)) {
 		        	 return response;
@@ -33,7 +34,7 @@ public class FAQsController {
 	        
 	    }
 	    @GetMapping("/{username}")
-	    public  ApiResponse getJobs( @PathVariable("username") String username) {
+	    public  ApiResponse getFaq( @PathVariable("username") String username) {
 	         ApiResponse response=faqsService.getFAQs(username);
 	         if(Objects.nonNull(response)) {
 	        	 return response;
@@ -41,4 +42,13 @@ public class FAQsController {
       return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE);
   
 }
+	    @DeleteMapping("/{username}/{jobid}")
+	    public  ApiResponse deleteFaq( @PathVariable("username") String username,@PathVariable("jobid") String jobid) {
+	    	 ApiResponse response=faqsService.deleteFAQsById(username,Long.parseLong(jobid));
+	         if(Objects.nonNull(response)) {
+	        	 return response;
+	         }
+            return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE);
+        
+    }
 	    }

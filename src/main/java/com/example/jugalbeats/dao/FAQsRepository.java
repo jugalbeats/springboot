@@ -11,4 +11,7 @@ public interface FAQsRepository extends CrudRepository<FAQs, Long> {
 	@Query(value = "select DISTINCT u.* from  faqs u where user_name_faqs = :username  ", nativeQuery = true)
 	public List<FAQs> findByUserName(String username);
 
+	@Query(value="select DISTINCT j.* from  faqs j where id = :id and user_name_faqs = :username",nativeQuery = true)
+	public FAQs findFaqByUsernameAndFaqId(String username, long id);
+
 }

@@ -5,6 +5,7 @@ import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,8 +48,8 @@ public class JobPostController {
             return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE);
         
     }
-	    @GetMapping("/{username}/{jobid}")
-	    public  ApiResponse getJobs( @PathVariable("username") String username,@PathVariable("jobid") String jobid) {
+	    @DeleteMapping("/{username}/{jobid}")
+	    public  ApiResponse deleteJobs( @PathVariable("username") String username,@PathVariable("jobid") String jobid) {
 	    	 ApiResponse response=jobPostService.deleteJobById(username,Long.parseLong(jobid));
 	         if(Objects.nonNull(response)) {
 	        	 return response;
