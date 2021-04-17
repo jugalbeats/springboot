@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "jugalupload",
+  "private_key_id": "5d5f0583a537727fdbdf368b4093ef00f8a1b15c",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCuBb/2NVvYfgdp\nhVMYnkTadiU6Rj8OjcLalMYcnBWYM7PXSViGkL98YInHTlr2XfPk0DIjCIVn8C1m\ntssUXfeM0iM/XvVyZM8hN0mSReURjv6grgm07xXJnx6R/3g9DjamZ1ItUMJXJin/\nTIlavj6c/1ixf52H5ctaGTkO2Pmu5u56495xvQex7qt2CMnstUrIVfea051l4BkW\n/8BsqOTHCVrBY9qjybsB5XrRhgJxpE5lAI67UiSCYiCD0N+mDQ/2r3mpfVewueqZ\ngw0CWFC8EEWWEY1/S17dyGHM+PzXAZTWcUTyf4EaU1mmVw4wpPoVDrnMM7eULgcq\np9DT/ZiLAgMBAAECggEALT4scqfbuZTGe44glPls4DkwI47ozPFZM/fS69Q+nwPu\nIS4d+FpAlmcI2wrJhlzV0Gq6ZjZMbMHaI+apNKHbfr6RUGPxPyzrVvDnTUKjs+Vv\n2Ll2p5YzHWiji4SWL5V26ttY15Qz+nFfINM2sKNeZvXSCs+pVpANRt7g4TXS8EAG\npV04ghCKkNmulA3hfbi20UmsqTFMJRZr5fCP7YQlrR0dpwGtAUEDxxFNsPcIKuEh\nOqIYTkUcmDyEdFUBFyb+pTA0J96AHpJa7Oz69BZkWFFspiFTl12UwYyJtwSsRQYk\n+X9cBL1haw3SiMeZVW8i6bm1G6mmiu3AfaQIQYEhLQKBgQDldKR2s8abrs+5kLCv\nPRbT9LOmD4mrrqzhBUfzBGy3XELxqoAkqrWV2N8h7F82PeztXHqMpFgKx2GzLXzM\nWv7JZznyxN157LwQxJozIyMXCPxEKfHlriESku4rJrTtsjd0OrZdlNM4ZKT4zcUP\nc4PwlPee5hyp8EExBHddji7QzwKBgQDCJ3JsghScvyriGAA5OO1y7X/WX3CJr4dn\nNisx3ooIc8FnO2US/Cp+ez8ste7KbjA4yv33kSE6JCiV5DNgA9RV5eBgy+3K5LNy\nujB7zPZuJd79td2gMGeiilAOdv305mKm0K/+2w5yN3ghRFsu0z0NmqzBKka1d1O+\nGJlXBohThQKBgQC/Q9SX0dFbEoO61d5BpLVzpsVdRhRnFKqsw38vFmAdE/4Ffi9k\n4RuONgIBQAw5pbLqRK0usQtmqL5K4j7mBW/eqHpIYEuRh4FYpNk4iTCF0gqeMyyd\nXOHanrmDJLeqb2UEMLC1HwpWNqbBcpyx/YNctoAWZxA7o7ZjyqpJROzHRwKBgQCr\nHhtCOU+zauV/ycmApYTZ0yrlpM5J+5NqSxq85DdiBavCsV1+4xMM0NE4Nc0VSxJj\nK720kYvoc2/109/X0ug1INqmVXXqabEi/6i1pErZf7VOhRilE6RzZFX0ublQPDFc\ndvd2tljAH9VX9Kgs1+6qa9WwlfMmAtqi44laYx6KBQKBgEkSiVYbWiopgU24dqJG\noc4P55EqgtvElNuFtwS4OQfJxSjJ55fLB7inG9XDoDRoVuNznSI90Im4Eg6sLr2e\nq+mOdN7xnSUgjxebNE2Nhnj/BGzyWQYewpBShKc10gJi07nPwDjCsNp3um6Jzs8b\nrineeQ0f6dmxAl29F5RDOplE\n-----END PRIVATE KEY-----\n",
+  "client_email": "jugalbeat@jugalupload.iam.gserviceaccount.com",
+  "client_id": "105399115002472224312",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/jugalbeat%40jugalupload.iam.gserviceaccount.com"
+}
