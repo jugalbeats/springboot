@@ -35,27 +35,60 @@ public class SearchService {
 	
 	public ApiResponse findUserArtist(String searchStr,String location,String eventDate,PageRequest pageRequest) {
 		
-		Page<UsersModel>usersPage=userDao.findByCustomerType(UserType.ARTIST.getValue(),pageRequest);
-		List<UsersModel>filteredList=new ArrayList<>();
-		List<UsersModel>usersList=usersPage.getContent();
-		usersList.stream().forEach(user->
-		{ 
-		   if(!StringUtils.isBlank(searchStr) && !StringUtils.isBlank(user.getProfession()))
-			{if(Pattern.compile(Pattern.quote(searchStr), Pattern.CASE_INSENSITIVE).matcher(user.getProfession()).find()) {
-				filteredList.add(user);
-			}}
-		   if(!StringUtils.isBlank(location) && !StringUtils.isBlank(user.getLocation()))
-				{if(Pattern.compile(Pattern.quote(location), Pattern.CASE_INSENSITIVE).matcher(user.getLocation()).find()) {
-					filteredList.add(user);
-				}}
-		}
-		);
-		List<UsersModel>finalList=null;
-		if(!filteredList.isEmpty() && Objects.nonNull(filteredList)) 
-			{finalList=filteredList.stream().distinct().collect(Collectors.toList());}
-		else finalList=usersPage.getContent();
-		Page<UsersModel>page= new PageImpl<UsersModel>(finalList,pageRequest,finalList.size());
-		return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE,page);
+		Page<UsersModel>usersPage=null;
+		
+		   if(!StringUtils.isBlank(location) && !StringUtils.isBlank(searchStr) && !StringUtils.isBlank(eventDate) ) {
+			   usersPage=userDao.findByCustomerTypeAndAvailability(eventDate, UserType.ARTIST.getValue(), searchStr, location, pageRequest);
+					   }
+		   else if (!StringUtils.isBlank(location) && !StringUtils.isBlank(searchStr))
+		   {
+			   usersPage=userDao.findByLocationAndCustomerTypeAndProfession(location, UserType.ARTIST.getValue(), searchStr, pageRequest);
+		   }
+		   else if (!StringUtils.isBlank(searchStr) && !StringUtils.isBlank(eventDate))
+		   {
+			   usersPage=userDao.findByCustomerTypeAndAvailability(eventDate, UserType.ARTIST.getValue(), searchStr, pageRequest);
+					   }
+		   else if (!StringUtils.isBlank(location) && !StringUtils.isBlank(eventDate))
+		   {
+			   usersPage=userDao.findByCustomerTypeAndAvailabilityAndLocation(eventDate, UserType.ARTIST.getValue(), location, pageRequest);
+		   }
+		   else if (!StringUtils.isBlank(searchStr))
+		   {
+			   usersPage=userDao.findByProfessionAndCustomerType(searchStr,UserType.ARTIST.getValue(),pageRequest);
+					   }
+		   else if (!StringUtils.isBlank(location))
+		   {
+			   usersPage=userDao.findByLocationAndCustomerType(location,UserType.ARTIST.getValue(),pageRequest);
+					   }
+		   else if (!StringUtils.isBlank(eventDate))
+		   {
+			   usersPage=userDao.findByCustomerTypeAndAvailability(eventDate, UserType.ARTIST.getValue(), pageRequest);
+					   }
+		   else {
+			usersPage=userDao.findByCustomerType(UserType.ARTIST.getValue(),pageRequest);
+		   }
+
+//		usersList.stream().forEach(user->
+//		{ 
+//		   if(!StringUtils.isBlank(searchStr) && !StringUtils.isBlank(user.getProfession()))
+//			{if(Pattern.compile(Pattern.quote(searchStr), Pattern.CASE_INSENSITIVE).matcher(user.getProfession()).find()) {
+//				filteredList.add(user);
+//			}}
+//		   if(!StringUtils.isBlank(location) && !StringUtils.isBlank(user.getLocation()))
+//				{if(Pattern.compile(Pattern.quote(location), Pattern.CASE_INSENSITIVE).matcher(user.getLocation()).find()) {
+//					filteredList.add(user);
+//				}}
+//		}
+//		);
+//		List<UsersModel>finalList=null;
+//		if(!filteredList.isEmpty() && Objects.nonNull(filteredList)) 
+//			{finalList=filteredList.stream().distinct().collect(Collectors.toList());}
+//		else finalList=usersPage.getContent();
+//		Page<UsersModel>page= new PageImpl<UsersModel>(finalList,pageRequest,finalList.size());
+		
+		
+		
+		return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE,usersPage);
 
 	}
   public ApiResponse findJobs(String searchStr,Long min,Long max, PageRequest pageRequest) {
