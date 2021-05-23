@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.jugalbeats.models.JobPost;
@@ -57,4 +58,13 @@ public class JobPostController {
             return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE);
         
     }
+	    @PostMapping("/{username}/apply")
+	    public  ApiResponse applyToJob(@PathVariable("username") String username,@RequestParam Long jobId) {
+	         ApiResponse response=jobPostService.applyToJob(jobId, username);
+	         if(Objects.nonNull(response)) {
+	        	 return response;
+	         }
+         return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE);
+     
+ }
 }

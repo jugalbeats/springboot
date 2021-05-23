@@ -2,14 +2,20 @@ package com.example.jugalbeats.services;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.jugalbeats.dao.JobApplicantRepository;
 import com.example.jugalbeats.dao.JobPostRepository;
 import com.example.jugalbeats.dao.UsersDao;
+import com.example.jugalbeats.enums.ApplicantStatus;
+import com.example.jugalbeats.models.JobApplicant;
 import com.example.jugalbeats.models.JobPost;
 import com.example.jugalbeats.models.UsersModel;
+import com.example.jugalbeats.models.Workshop;
+import com.example.jugalbeats.models.WorkshopApplicant;
 import com.example.jugalbeats.pojo.ApiResponse;
 import com.example.jugalbeats.pojo.JobPostRequest;
 import com.example.jugalbeats.utils.Constants;
@@ -24,6 +30,9 @@ public class JobPostService {
 	
     @Autowired
     private UsersDao usersDao;
+    
+    @Autowired
+    private JobApplicantRepository applicantRepo;
 	
 	
 	public ApiResponse postJob(JobPostRequest job) {
@@ -57,13 +66,33 @@ public class JobPostService {
         return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE,posts);
 		
 	}
+	
+	public ApiResponse applyToJob(Long workshopId,String username) {
+		UsersModel user=usersDao.findByUsername(username);
+		if(Objects.isNull(user)) {
+	        return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE, "User not found");
+		}
+		Optional<JobPost> workshop=jobPostRepository.findById(workshopId);
+		if(Objects.isNull(workshop)) {
+	        return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE, "Job not found");
+		}
+		JobApplicant applicant =new JobApplicant();
+		applicant.setApplyBy(user);
+		applicant.setPostId(workshop.get());
+		applicant.setStatus(ApplicantStatus.APPLIED.getValue());
+		applicantRepo.save(applicant);
+        return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE, "User Applied successfully");	
+
+		
+	}
 
 	public ApiResponse deleteJobById(String username, long id) {
-		// TODO Auto-generated method stub
 		JobPost post=jobPostRepository.findJobPostByUsernameAndJobId(username, id);
 		if(Objects.isNull(post)) {
 	        return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE, "job not found");
 		}
+		if(!applicantRepo.getApplicantNames(id, ApplicantStatus.APPLIED.getValue()).isEmpty())
+		{		applicantRepo.deleteJobApplicantByJobid(id);}
 		jobPostRepository.deleteById(id);
         return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE,"job post deleted successfully");
 	}

@@ -41,6 +41,8 @@ public class RegistrationAndLoginServices {
         model.setEmail(registrationForm.getEmail());
         model.setPassword(registrationForm.getPassword());
         model.setArtType(registrationForm.getArtType());
+        model.setCoverImage("https://drive.google.com/uc?export=view&id=1a5ernRhpYITJjd-Ua3BLInN7-N7r8r8M");
+        model.setProfileImage("https://drive.google.com/uc?export=view&id=1Zg9p_7zw6kyBG8vjhcYbqk3K9hM8E7lV");
         usersDao.save(model);
         return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE, "You are registered successfully");
     }

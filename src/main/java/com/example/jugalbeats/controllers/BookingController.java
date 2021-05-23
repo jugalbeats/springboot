@@ -39,8 +39,9 @@ public class BookingController {
 
 	@GetMapping("/{username}")
 	public ApiResponse getBooking(@PathVariable("username") String username,
-			@RequestParam(required = true, name = "userType") String userType) {
-		ApiResponse response = bookingService.getAllBooking(username,userType);
+			@RequestParam(required = true, name = "userType") String userType,
+			@RequestParam (required =  false,name="dateTime")Long dateTime) {
+		ApiResponse response = bookingService.getAllBooking(username,userType,dateTime);
 		if (Objects.nonNull(response)) {
 			return response;
 		}

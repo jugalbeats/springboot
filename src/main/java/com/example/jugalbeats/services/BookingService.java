@@ -30,10 +30,12 @@ public class BookingService {
 	  @Autowired
 	  private UsersDao usersDao;
 
-	public ApiResponse getAllBooking(String username, String userType) {
-		List<Booking> bookings=new ArrayList();
+	public ApiResponse getAllBooking(String username, String userType, Long dateTime) {
+		List<Booking> bookings=new ArrayList<>();
 		if(userType.equalsIgnoreCase(UserType.ARTIST.getValue())) {
-			bookings=bookingRepository.getBookingByArtistUsername(username);
+			if(dateTime>0)
+				bookings=bookingRepository.getBookingByArtistUsernameDateTime(username, dateTime);
+			else bookings=bookingRepository.getBookingByArtistUsername(username);
 		}
 		if(userType.equalsIgnoreCase(UserType.CLIENT.getValue())) {
 			bookings=bookingRepository.getBookingByClientUsername(username);
