@@ -55,6 +55,22 @@ public class SearchController {
 	            return new ApiResponse(Constants.NO_CONTENT_CODE, Constants.NO_CONTENT_MESSAGE);
 	        }
 		 }
+		
+		@GetMapping("/workshop")
+		public ApiResponse findWorkshop(HttpServletRequest request,@RequestParam(required=false)String pageIndex,
+				@RequestParam(required=false)String itemPerPage ,@RequestParam(required=false)String sortOrder,
+				@RequestParam(required=false)String sortBy ,@RequestParam(required=true)String searchItem
+				,@RequestParam(required=false)Long dateTime ,@RequestParam(required=false)Boolean paid,@RequestParam(required=false)String eventType
+				) {
+					
+					
+			 PageRequest pageRequest = Utils.generatePageRequest(request);
+		     try {
+			  return searchService.findWorkshops(paid, eventType, searchItem, dateTime, pageRequest);
+		     }catch(Exception e) {
+		            return new ApiResponse(Constants.NO_CONTENT_CODE, Constants.NO_CONTENT_MESSAGE);
+		        }
+			 }
 	
 		
 		

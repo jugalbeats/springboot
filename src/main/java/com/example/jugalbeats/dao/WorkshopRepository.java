@@ -16,4 +16,8 @@ public interface WorkshopRepository extends JpaRepository<Workshop, Long>{
 	
 	@Query(value = "select DISTINCT w.* from  workshop w where user_name_host_name = :username ",nativeQuery = true)
 	public List<Workshop> findByHostname(@Param("username")String username);
+	
+//    @Query(value="select DISTINCT w.* from   workshop w where :query ",nativeQuery = true)
+//    Page<Workshop> findByCustomQuery(@Param("query") String query,Pageable pageable);   
+
 }

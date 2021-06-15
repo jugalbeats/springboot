@@ -18,6 +18,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+	
 	</properties>
 
 	<dependencies>
@@ -88,57 +89,56 @@
 			<artifactId>google-api-services-drive</artifactId>
 			<version>v3-rev110-1.23.0</version>
 		</dependency>
-<dependency>
-    <groupId>org.apache.commons</groupId>
-    <artifactId>commons-lang3</artifactId>
-    <version>3.11</version>
-</dependency>
-  <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>okhttp</artifactId>
-        </dependency>
-       
-        
-         <dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.11</version>
+		</dependency>
+		<dependency>
+			<groupId>com.squareup.okhttp3</groupId>
+			<artifactId>okhttp</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>com.squareup.retrofit2</groupId>
 			<artifactId>converter-scalars</artifactId>
 			<version>2.6.2</version>
 		</dependency>
-		
+
 		<dependency>
-				<groupId>com.squareup.okhttp3</groupId>
-				<artifactId>logging-interceptor</artifactId>
-				<version>3.9.0</version>
+			<groupId>com.squareup.okhttp3</groupId>
+			<artifactId>logging-interceptor</artifactId>
+			<version>3.9.0</version>
 		</dependency>
 
 
 
 
-<dependency>
-    <groupId>com.google.code.gson</groupId>
-    <artifactId>gson</artifactId>
-    <version>2.8.6</version>
-</dependency>
-<dependency>
-    <groupId>com.squareup.retrofit2</groupId>
-    <artifactId>converter-jackson</artifactId>
-    <version>2.9.0</version>
-</dependency>
-<dependency>
-    <groupId>com.squareup.retrofit2</groupId>
-    <artifactId>adapter-rxjava2</artifactId>
-    <version>2.9.0</version>
-</dependency>
-<dependency>
-    <groupId>io.springfox</groupId>
-    <artifactId>springfox-swagger2</artifactId>
-    <version>2.9.2</version>
-</dependency>
-<dependency>
-    <groupId>io.springfox</groupId>
-    <artifactId>springfox-swagger-ui</artifactId>
-    <version>2.9.2</version>
-</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.6</version>
+		</dependency>
+		<dependency>
+			<groupId>com.squareup.retrofit2</groupId>
+			<artifactId>converter-jackson</artifactId>
+			<version>2.9.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.squareup.retrofit2</groupId>
+			<artifactId>adapter-rxjava2</artifactId>
+			<version>2.9.0</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.9.2</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.9.2</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -158,7 +158,7 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
+			</plugin>		
 		</plugins>
 	</build>
 
