@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -100,22 +102,25 @@ public class SearchService {
 
 	public ApiResponse findWorkshops(Boolean paid, String eventType, String title, Long dateTime,
 			PageRequest pageRequest) {
-	//	Page<Workshop> page = null;
+		Page<Workshop> page = null;
 		String query ="select distinct w from Workshop w where";
+		String criteria=" ";
 		if (!StringUtils.isBlank(title))
-			{query = query.concat(" title LIKE '%".concat(title).concat("%' "));}
+			{criteria = criteria.concat(" title LIKE '%".concat(title).concat("%' "));}
 		    
 		if (paid!=null)
-      		query = query.concat(" and paid = ".concat(paid.toString()));
+			criteria = criteria.concat(" and paid = ".concat(paid.toString()));
 
 		if (!StringUtils.isBlank(eventType))
-      		query = query.concat(" and event_type LIKE '%".concat(eventType).concat("%' "));
+			criteria = criteria.concat(" and event_type LIKE '%".concat(eventType).concat("%' "));
 		if (dateTime != null)
-     		query = query.concat(" and date_time = ".concat(dateTime.toString()));
-//		page = workshopRepo.findByCustomQuery(query, pageRequest);
-		List<Workshop>result= entityManager.createQuery(query, Workshop.class).setMaxResults(pageRequest.getPageSize())
+			criteria = criteria.concat(" and date_time = ".concat(dateTime.toString()));
+		List<Workshop> result= entityManager.createQuery(query.concat(criteria), Workshop.class).setMaxResults(pageRequest.getPageSize())
 				.setFirstResult(pageRequest.getPageNumber()).getResultList();
-		return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE, result);
+		Query queryTotal = entityManager.createQuery("Select count(w.id) from Workshop w where ".concat(criteria));
+			long countResult = (long)queryTotal.getSingleResult();
+		page= new PageImpl<Workshop>(result,pageRequest,countResult);
+		return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE, page);
 	}
 
 }
