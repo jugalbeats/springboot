@@ -40,6 +40,6 @@ public class MusicianForm {
     String genre;
     
     List<String> songList; 
-    List<String> priceList;
+    List<PriceInfo> priceList;
     WorkUploadRequest workUpload;
 }

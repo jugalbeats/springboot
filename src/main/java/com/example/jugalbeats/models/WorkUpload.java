@@ -62,6 +62,6 @@ public class WorkUpload extends BaseModel {
 	@JoinColumn(name="work_upload_id")
 	private Set<Comment> comments;
 	@Column(nullable = true)
-	private Boolean isArchived;
+	private Boolean isArchived=false;
 
 }

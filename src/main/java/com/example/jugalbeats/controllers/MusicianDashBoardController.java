@@ -1,5 +1,6 @@
 package com.example.jugalbeats.controllers;
 
+import com.example.jugalbeats.config.security.Authorize;
 import com.example.jugalbeats.pojo.ApiResponse;
 import com.example.jugalbeats.pojo.MusicianForm;
 import com.example.jugalbeats.pojo.MusicianResponse;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 /*
  * dhruv:2021
@@ -40,6 +42,7 @@ public class MusicianDashBoardController {
         }
     }
     @GetMapping("/data/{username}")
+    @Authorize
     public  ApiResponse getMusician( @PathVariable("username") String username) {
     	ApiResponse musician= musicianDashboardServices.getMusiciandata(username);
     	if(Objects.nonNull(musician)) {
@@ -50,9 +53,9 @@ public class MusicianDashBoardController {
     }
     
     @PutMapping("/data/{username}")
-    public ApiResponse updateData(@RequestBody MusicianForm musicianForm,@PathVariable("username") String username) {
+    public ApiResponse updateData(@RequestBody MusicianForm musicianForm,@PathVariable("username") String username,@RequestParam(required=false, defaultValue="false") boolean isPriceListAdd) {
         try {
-            return musicianDashboardServices.updateData(musicianForm,username);
+            return musicianDashboardServices.updateData(musicianForm,username,isPriceListAdd);
         } catch (Exception e) {
             return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE);
         }

@@ -21,5 +21,8 @@ public class Constants {
     public static final String FORBIDDEN_MESSAGE = "FORBIDDEN!";
     public static final String NOT_FOUND_MESSAGE = "NOT FOUND!";
     public static final String SOMETHING_WRONG_MESSAGE = "SOMETHING WENT WRONG!";
+    public static final String AUTH_TOKEN_REQUIRED = "Auth token is required";
+    public static final String AUTH_TOKEN_BEARER = "Auth token should start with Bearer required";
+    public static final String AUTH_TOKEN_EXPIRED = "Auth token is Expired";
 
 }

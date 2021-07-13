@@ -30,7 +30,7 @@ public class BaseModel {
     private Date modified;
 
     @Column(name="is_deleted", nullable = true)
-    private Boolean isDeleted;
+    private Boolean isDeleted=false;
     
     @PrePersist
 	  protected void onCreate() {
