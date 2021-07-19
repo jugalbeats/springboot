@@ -1,5 +1,6 @@
 package com.example.jugalbeats.config.security;
 
+import java.io.InputStream;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -60,6 +61,7 @@ public class AuthorizeFilter implements HandlerInterceptor
 				} else {
 					throw new UnauthorizedException(Constants.AUTH_TOKEN_BEARER);
 				}
+				InputStream stream=request.getInputStream();
 				// Once we get the token validate it.
 				if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 

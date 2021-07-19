@@ -42,7 +42,7 @@ public class MusicianDashBoardController {
         }
     }
     @GetMapping("/data/{username}")
-    @Authorize
+   // @Authorize
     public  ApiResponse getMusician( @PathVariable("username") String username) {
     	ApiResponse musician= musicianDashboardServices.getMusiciandata(username);
     	if(Objects.nonNull(musician)) {

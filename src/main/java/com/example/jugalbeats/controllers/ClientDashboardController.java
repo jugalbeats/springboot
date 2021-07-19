@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.jugalbeats.config.security.Authorize;
 import com.example.jugalbeats.models.JobPost;
 import com.example.jugalbeats.pojo.ApiResponse;
 import com.example.jugalbeats.pojo.ClientForm;
@@ -28,7 +29,8 @@ public class ClientDashboardController {
 	private ClientDasboardService clientService;
 	
 	   @PostMapping
-	    public ApiResponse register(@RequestBody ClientForm clientForm) {
+	   @Authorize 
+	   public ApiResponse register(@RequestBody ClientForm clientForm) {
 		         ApiResponse response=clientService.addData(clientForm);
 		         if(Objects.nonNull(response)) {
 		        	 return response;
@@ -37,6 +39,7 @@ public class ClientDashboardController {
 	        
 	    }
 	    @GetMapping("/data/{username}")
+	    @Authorize
 	    public  ApiResponse getMusician( @PathVariable("username") String username) {
 	    	 ApiResponse response=clientService.getClientDashboard(username);
 	         if(Objects.nonNull(response)) {
@@ -46,7 +49,8 @@ public class ClientDashboardController {
      
  }
 		   @PutMapping
-		    public ApiResponse updateClientDashboard(@RequestBody ClientResponse request) {
+		   @Authorize
+		   public ApiResponse updateClientDashboard(@RequestBody ClientResponse request) {
 			         ApiResponse response=clientService.updateData(request);
 			         if(Objects.nonNull(response)) {
 			        	 return response;
