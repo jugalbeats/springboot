@@ -27,10 +27,10 @@ public class FAQs extends BaseModel{
 	@JsonBackReference
     private UsersModel userNameFaqs;
 	
-    @Column(nullable = true)
+    @Column(nullable = false)
 	private Long quesId;
 	
-    @Column(nullable = true)
+    @Column(nullable = false)
 	private String answer;
 	
 	

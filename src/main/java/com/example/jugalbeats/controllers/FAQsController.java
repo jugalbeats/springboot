@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,6 +34,15 @@ public class FAQsController {
 	            return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE);
 	        
 	    }
+	 @PutMapping
+	 public ApiResponse updateFaq(@RequestBody FAQsRequest request) {
+		         ApiResponse response=faqsService.updateFAQs(request);
+		         if(Objects.nonNull(response)) {
+		        	 return response;
+		         }
+	            return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE);
+	        
+	    }
 	    @GetMapping("/{username}")
 	    public  ApiResponse getFaq( @PathVariable("username") String username) {
 	         ApiResponse response=faqsService.getFAQs(username);
@@ -42,9 +52,9 @@ public class FAQsController {
       return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE);
   
 }
-	    @DeleteMapping("/{username}/{jobid}")
-	    public  ApiResponse deleteFaq( @PathVariable("username") String username,@PathVariable("jobid") String jobid) {
-	    	 ApiResponse response=faqsService.deleteFAQsById(username,Long.parseLong(jobid));
+	    @DeleteMapping("/{username}/{quesid}")
+	    public  ApiResponse deleteFaq( @PathVariable("username") String username,@PathVariable("quesid") String quesid) {
+	    	 ApiResponse response=faqsService.deleteFAQsById(username,Long.parseLong(quesid));
 	         if(Objects.nonNull(response)) {
 	        	 return response;
 	         }

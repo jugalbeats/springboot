@@ -21,7 +21,7 @@ public class QuestionService {
 	public ApiResponse postQuestion(Question question) {
 		
 		questionRepo.save(question);
-        return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE, "Your question added successfully");	
+        return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE, "Question added successfully");	
 	}
 	
 	public ApiResponse getAllQuestion() {
@@ -29,6 +29,11 @@ public class QuestionService {
 	    List<Question>quesList=questionRepo.findAll();
         return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE,quesList);
 		
+	}
+
+	public ApiResponse deleteQues(Long quesId) {
+		questionRepo.deleteById(quesId);
+        return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE, "Question deleted successfully");	
 	}
 	
 }

@@ -2,6 +2,7 @@ package com.example.jugalbeats.filter;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -23,24 +24,27 @@ public class CORSFilter implements Filter {
 
     }
 
-    @Override
-    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
-            throws IOException, ServletException {
-        HttpServletResponse response = (HttpServletResponse) resp;
-        HttpServletRequest request = (HttpServletRequest) req;
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
-        response.setHeader("Access-Control-Max-Age", "3600");
-        response.setHeader("Access-Control-Allow-Headers",
-                "x-requested-with, authorization, Content-Type, Authorization, credential, X-XSRF-TOKEN");
+	@Override
+	public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain filterChain)
+			throws IOException, ServletException {
+		final HttpServletResponse res = (HttpServletResponse) response;
+		final HttpServletRequest req = (HttpServletRequest) request;
+		if (req.getRequestURI().equals("/")) {
+			res.sendError(HttpStatus.METHOD_NOT_ALLOWED.value());
+		}
+		res.setHeader("Access-Control-Allow-Credentials", "true");
+		//res.setHeader("Access-Control-Allow-Origin", "*");
+		res.setHeader("Access-Control-Allow-Origin", req.getHeader("Origin"));
+		res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, PATCH, OPTIONS");
+		res.setHeader("Access-Control-Allow-Headers",
+				"User-Agent, Authorization, X-UserID, Content-Type, Accept, Origin, X-Requested-With, Access-Token, Refresh-Authorization, Access-Refresh-Token, User-Access-Token");
+		res.setHeader("Access-Control-Expose-Headers",
+				"Authorization, X-Custom-header, X-Secret, X-UserID, Access-Token, Refresh-Authorization, Access-Refresh-Token, User-Access-Token, matching-criteria");
+		res.setHeader("X-FRAME-OPTIONS", "DENY");
+		res.setHeader("X-XSS-Protection", "1");
+		filterChain.doFilter(request, res);
 
-        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
-            response.setStatus(HttpServletResponse.SC_OK);
-        } else {
-            chain.doFilter(req, resp);
-        }
-
-    }
+	}
 
     @Override
     public void destroy() {
