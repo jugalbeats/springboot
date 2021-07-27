@@ -68,7 +68,7 @@ public class FAQsService {
 	}
 
 	public ApiResponse deleteFAQsById(String username, long id) {
-		FAQs post=faqsRepository.findFaqByUsernameAndQuesId(username, id);
+		FAQs post=faqsRepository.findFaqByUsernameAndFaqId(username, id);
 		if(Objects.isNull(post)) {
 	        return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE, "no data found");
 		}

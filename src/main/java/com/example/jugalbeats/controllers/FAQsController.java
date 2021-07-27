@@ -52,9 +52,9 @@ public class FAQsController {
       return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE);
   
 }
-	    @DeleteMapping("/{username}/{quesid}")
-	    public  ApiResponse deleteFaq( @PathVariable("username") String username,@PathVariable("quesid") String quesid) {
-	    	 ApiResponse response=faqsService.deleteFAQsById(username,Long.parseLong(quesid));
+	    @DeleteMapping("/{username}/{faqid}")
+	    public  ApiResponse deleteFaq( @PathVariable("username") String username,@PathVariable("faqid") String faqid) {
+	    	 ApiResponse response=faqsService.deleteFAQsById(username,Long.parseLong(faqid));
 	         if(Objects.nonNull(response)) {
 	        	 return response;
 	         }
