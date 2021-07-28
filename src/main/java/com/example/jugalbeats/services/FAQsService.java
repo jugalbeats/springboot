@@ -40,7 +40,7 @@ public class FAQsService {
 	        return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE, "FAQs post unsuccessful");
 		}
 		
-		if(Objects.isNull(faqsRepository.findFaqByUsernameAndQuesId(request.getUsername(), request.getQuesId()))) {
+		if(!Objects.isNull(faqsRepository.findFaqByUsernameAndQuesId(request.getUsername(), request.getQuesId()))) {
 	        return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE, "FAQs already exist unsuccessful");
 		}
 		FAQs faq=new FAQs();
