@@ -16,35 +16,36 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Component
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(0)
 public class CORSFilter implements Filter {
 
-    @Override
-    public void init(final FilterConfig filterConfig) throws ServletException {
+	@Override
+	public void init(final FilterConfig filterConfig) throws ServletException {
+	}
 
-    }
+	@Override
+	public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain filterChain)
+			throws IOException, ServletException {
+		final HttpServletResponse res = (HttpServletResponse) response;
+		final HttpServletRequest req = (HttpServletRequest) request;
+		if (req.getRequestURI().equals("/")) {
+			res.sendError(HttpStatus.METHOD_NOT_ALLOWED.value());
+		}
+		res.setHeader("Access-Control-Allow-Credentials", "true");
+		res.setHeader("Access-Control-Allow-Origin", "*");
+		res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, PATCH, OPTIONS");
+		res.setHeader("Access-Control-Allow-Headers",
+				"User-Agent, Authorization, X-UserID, Content-Type, Accept, Origin, X-Requested-With, Access-Token, Refresh-Authorization, Access-Refresh-Token");
+		res.setHeader("Access-Control-Expose-Headers",
+				"Authorization, X-Custom-header, X-Secret, X-UserID, Access-Token, Refresh-Authorization, Access-Refresh-Token");
+		res.setHeader("X-FRAME-OPTIONS", "DENY");
+		res.setHeader("X-XSS-Protection", "1");
+		filterChain.doFilter(request, res);
 
-    @Override
-    public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
-            throws IOException, ServletException {
-        HttpServletResponse response = (HttpServletResponse) resp;
-        HttpServletRequest request = (HttpServletRequest) req;
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
-        response.setHeader("Access-Control-Max-Age", "3600");
-        response.setHeader("Access-Control-Allow-Headers",
-                "x-requested-with, authorization, Content-Type, Authorization, credential, X-XSRF-TOKEN");
+	}
 
-        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
-            response.setStatus(HttpServletResponse.SC_OK);
-        } else {
-            chain.doFilter(req, resp);
-        }
+	@Override
+	public void destroy() {
 
-    }
-
-    @Override
-    public void destroy() {
-
-    }
+	}
 }
