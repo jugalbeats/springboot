@@ -24,5 +24,6 @@ public class Constants {
     public static final String AUTH_TOKEN_REQUIRED = "Auth token is required";
     public static final String AUTH_TOKEN_BEARER = "Auth token should start with Bearer required";
     public static final String AUTH_TOKEN_EXPIRED = "Auth token is Expired";
+    public static final String INVALID_TOKEN = "Token is invalid";
 
 }

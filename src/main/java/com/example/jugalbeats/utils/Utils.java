@@ -10,6 +10,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 
+import com.example.jugalbeats.exception.UnauthorizedException;
+
 import java.io.*;
 import java.math.BigDecimal;
 import java.net.URL;
@@ -307,6 +309,12 @@ public class Utils {
     	}
     	return pageRequest;
     	
+    }
+    
+    public static boolean matchString(String one,String two) throws UnauthorizedException {
+    	if(!one.equalsIgnoreCase(two)) 
+    		throw new UnauthorizedException(Constants.INVALID_TOKEN);    	
+    	return true;
     }
 
 }
