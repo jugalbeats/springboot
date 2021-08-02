@@ -1,6 +1,7 @@
 package com.example.jugalbeats.controllers;
 
 import com.example.jugalbeats.config.security.Authorize;
+import com.example.jugalbeats.exception.UnauthorizedException;
 import com.example.jugalbeats.pojo.ApiResponse;
 import com.example.jugalbeats.pojo.MusicianForm;
 import com.example.jugalbeats.pojo.MusicianResponse;
@@ -8,8 +9,11 @@ import com.example.jugalbeats.pojo.RegistrationForm;
 import com.example.jugalbeats.pojo.model.PriceInfo;
 import com.example.jugalbeats.services.MusicianDashboardServices;
 import com.example.jugalbeats.utils.Constants;
+import com.example.jugalbeats.utils.Utils;
 
 import java.util.Objects;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,7 +38,9 @@ public class MusicianDashBoardController {
     private MusicianDashboardServices musicianDashboardServices;
 
     @PostMapping("/data")
-    public ApiResponse register(@RequestBody MusicianForm musicianForm) {
+    @Authorize
+    public ApiResponse register(@RequestBody MusicianForm musicianForm,HttpServletRequest httpRequest ) throws UnauthorizedException {
+		Utils.matchString(httpRequest.getAttribute("username").toString(), musicianForm.getUserName());
         try {
             return musicianDashboardServices.addData(musicianForm);
         } catch (Exception e) {
@@ -42,7 +48,6 @@ public class MusicianDashBoardController {
         }
     }
     @GetMapping("/data/{username}")
-   // @Authorize
     public  ApiResponse getMusician( @PathVariable("username") String username) {
     	ApiResponse musician= musicianDashboardServices.getMusiciandata(username);
     	if(Objects.nonNull(musician)) {
@@ -53,7 +58,9 @@ public class MusicianDashBoardController {
     }
     
     @PutMapping("/data/{username}")
-    public ApiResponse updateData(@RequestBody MusicianForm musicianForm,@PathVariable("username") String username,@RequestParam(required=false, defaultValue="false") boolean isPriceListAdd) {
+    @Authorize
+    public ApiResponse updateData(@RequestBody MusicianForm musicianForm,@PathVariable("username") String username,@RequestParam(required=false, defaultValue="false") boolean isPriceListAdd,HttpServletRequest httpRequest ) throws UnauthorizedException {
+		Utils.matchString(httpRequest.getAttribute("username").toString(), username);
         try {
             return musicianDashboardServices.updateData(musicianForm,username,isPriceListAdd);
         } catch (Exception e) {
@@ -62,7 +69,9 @@ public class MusicianDashBoardController {
     }
     
     @DeleteMapping("/price/{username}")
-    public ApiResponse deletePrice(@RequestBody PriceInfo price,@PathVariable("username") String username) {
+    @Authorize
+    public ApiResponse deletePrice(@RequestBody PriceInfo price,@PathVariable("username") String username,HttpServletRequest httpRequest ) throws UnauthorizedException {
+		Utils.matchString(httpRequest.getAttribute("username").toString(), username);
         try {
             return musicianDashboardServices.deletePrice(price,username);
         } catch (Exception e) {

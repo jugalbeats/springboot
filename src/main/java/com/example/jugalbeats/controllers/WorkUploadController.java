@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.jugalbeats.config.security.Authorize;
+import com.example.jugalbeats.exception.UnauthorizedException;
 import com.example.jugalbeats.pojo.ApiResponse;
 import com.example.jugalbeats.pojo.CommentRequest;
 import com.example.jugalbeats.pojo.WorkUploadRequest;
@@ -34,7 +36,9 @@ public class WorkUploadController {
 	WorkUploadService workUploadService;
 
 	@PostMapping
-	public ApiResponse createWork(@RequestBody WorkUploadRequest request) {
+	@Authorize
+	public ApiResponse createWork(@RequestBody WorkUploadRequest request,HttpServletRequest httpRequest ) throws UnauthorizedException {
+		Utils.matchString(httpRequest.getAttribute("username").toString(), request.getUsername());
 		ApiResponse response = workUploadService.addWork(request);
 		if (Objects.nonNull(response)) {
 			return response;
@@ -67,8 +71,10 @@ public class WorkUploadController {
 	}
 
 	@PutMapping("/{username}")
+	@Authorize
 	public ApiResponse updateWork(@RequestBody WorkUploadRequest request, @PathVariable("username") String username,
-			@RequestParam Long workId) {
+			@RequestParam Long workId,HttpServletRequest httpRequest ) throws UnauthorizedException {
+		Utils.matchString(httpRequest.getAttribute("username").toString(), username);
 		ApiResponse response = workUploadService.updateWork(request, username, workId);
 		if (Objects.nonNull(response)) {
 			return response;
@@ -78,7 +84,9 @@ public class WorkUploadController {
 	}
 
 	@DeleteMapping("/{username}")
-	public ApiResponse deleteWork(@PathVariable("username") String username, @RequestParam Long workId) {
+	@Authorize
+	public ApiResponse deleteWork(@PathVariable("username") String username, @RequestParam Long workId,HttpServletRequest httpRequest ) throws UnauthorizedException {
+		Utils.matchString(httpRequest.getAttribute("username").toString(), username);
 		ApiResponse response = workUploadService.deleteWork(username, workId);
 		if (Objects.nonNull(response)) {
 			return response;
@@ -98,7 +106,9 @@ public class WorkUploadController {
 	}
 
 	@PostMapping("/like")
-	public ApiResponse like(@RequestParam String username, @RequestParam String postId) {
+	@Authorize
+	public ApiResponse like(@RequestParam String username, @RequestParam String postId,HttpServletRequest httpRequest ) throws UnauthorizedException {
+		Utils.matchString(httpRequest.getAttribute("username").toString(), username);
 		ApiResponse response = workUploadService.like(Long.valueOf(postId), username);
 		if (Objects.nonNull(response)) {
 			return response;
@@ -108,7 +118,9 @@ public class WorkUploadController {
 	}
 
 	@DeleteMapping("/like")
-	public ApiResponse unlike(@RequestParam String username, @RequestParam String postId) {
+	@Authorize
+	public ApiResponse unlike(@RequestParam String username, @RequestParam String postId,HttpServletRequest httpRequest ) throws UnauthorizedException {
+		Utils.matchString(httpRequest.getAttribute("username").toString(), username);
 		ApiResponse response = workUploadService.unlike(Long.valueOf(postId), username);
 		if (Objects.nonNull(response)) {
 			return response;
@@ -128,8 +140,10 @@ public class WorkUploadController {
 	}
 
 	@PostMapping("/comment")
+	@Authorize
 	public ApiResponse addComment(@RequestParam String username, @RequestParam String postId,
-			@RequestBody CommentRequest comment) {
+			@RequestBody CommentRequest comment,HttpServletRequest httpRequest ) throws UnauthorizedException {
+		Utils.matchString(httpRequest.getAttribute("username").toString(), username);
 		ApiResponse response = workUploadService.addComment(username, Long.valueOf(postId), comment);
 		if (Objects.nonNull(response)) {
 			return response;
@@ -139,8 +153,10 @@ public class WorkUploadController {
 	}
 
 	@DeleteMapping("/comment")
+	@Authorize
 	public ApiResponse deleteComment(@RequestParam String username, @RequestParam String postId,
-			@RequestParam String commentId) {
+			@RequestParam String commentId,HttpServletRequest httpRequest ) throws UnauthorizedException {
+		Utils.matchString(httpRequest.getAttribute("username").toString(), username);
 		ApiResponse response = workUploadService.deleteComment(username, Long.valueOf(postId), Long.valueOf(commentId));
 		if (Objects.nonNull(response)) {
 			return response;
@@ -150,8 +166,10 @@ public class WorkUploadController {
 	}
 
 	@PutMapping("/comment")
+	@Authorize
 	public ApiResponse addComment(@RequestParam String username, @RequestParam String postId,
-			@RequestParam String commentId, @RequestBody CommentRequest comment) {
+			@RequestParam String commentId, @RequestBody CommentRequest comment,HttpServletRequest httpRequest ) throws UnauthorizedException {
+		Utils.matchString(httpRequest.getAttribute("username").toString(), username);
 		ApiResponse response = workUploadService.updateComment(username, Long.valueOf(postId), Long.valueOf(commentId),
 				comment);
 		if (Objects.nonNull(response)) {

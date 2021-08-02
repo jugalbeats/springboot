@@ -2,6 +2,8 @@ package com.example.jugalbeats.controllers;
 
 import java.util.Objects;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,12 +13,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.jugalbeats.config.security.Authorize;
+import com.example.jugalbeats.exception.UnauthorizedException;
 import com.example.jugalbeats.models.Blogs;
 import com.example.jugalbeats.models.UserAvailability;
 import com.example.jugalbeats.pojo.ApiResponse;
 import com.example.jugalbeats.pojo.AvailabilityRequest;
 import com.example.jugalbeats.services.AvailabilityService;
 import com.example.jugalbeats.utils.Constants;
+import com.example.jugalbeats.utils.Utils;
 
 /*
  * dhruv:2021
@@ -29,7 +34,9 @@ public class AvailabilityController {
 	AvailabilityService availabilityService;
 	
 	@PostMapping("/{username}")
-	public ApiResponse setAvailability(@RequestBody AvailabilityRequest request,@PathVariable("username") String username ) {
+	@Authorize
+	public ApiResponse setAvailability(@RequestBody AvailabilityRequest request,@PathVariable("username") String username,HttpServletRequest httpRequest ) throws UnauthorizedException {
+		Utils.matchString(httpRequest.getAttribute("username").toString(), username);
 		ApiResponse response = availabilityService.setAvailability(request,username);
 		if (Objects.nonNull(response)) {
 			return response;
@@ -49,7 +56,10 @@ public class AvailabilityController {
 	}
 	
 	@PutMapping("/{username}")
-	public ApiResponse updateAvailability(@RequestBody AvailabilityRequest request,@PathVariable("username") String username) {
+	@Authorize
+	public ApiResponse updateAvailability(@RequestBody AvailabilityRequest request,@PathVariable("username") String username,HttpServletRequest httpRequest ) throws UnauthorizedException {
+		Utils.matchString(httpRequest.getAttribute("username").toString(),username);
+
 		ApiResponse response = availabilityService.updateAvailability(request,username);
 		if (Objects.nonNull(response)) {
 			return response;

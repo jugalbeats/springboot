@@ -2,6 +2,8 @@ package com.example.jugalbeats.controllers;
 
 import java.util.Objects;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.jugalbeats.config.security.Authorize;
+import com.example.jugalbeats.exception.UnauthorizedException;
 import com.example.jugalbeats.pojo.ApiResponse;
 import com.example.jugalbeats.pojo.BookingRequest;
 import com.example.jugalbeats.services.BookingService;
 import com.example.jugalbeats.utils.Constants;
+import com.example.jugalbeats.utils.Utils;
 /*
  * dhruv:2021
  * */
@@ -28,7 +33,10 @@ public class BookingController {
 	private BookingService bookingService;
 
 	@PostMapping
-	public ApiResponse createBooking(@RequestBody BookingRequest booking) {
+    @Authorize
+	public ApiResponse createBooking(@RequestBody BookingRequest booking,HttpServletRequest httpRequest ) throws UnauthorizedException {
+		Utils.matchString(httpRequest.getAttribute("username").toString(), booking.getUsernameClient());
+		
 		ApiResponse response = bookingService.createBooking(booking);
 		if (Objects.nonNull(response)) {
 			return response;
@@ -38,9 +46,11 @@ public class BookingController {
 	}
 
 	@GetMapping("/{username}")
+	@Authorize
 	public ApiResponse getBooking(@PathVariable("username") String username,
 			@RequestParam(required = true, name = "userType") String userType,
-			@RequestParam (required =  false,name="dateTime")Long dateTime) {
+			@RequestParam (required =  false,name="dateTime")Long dateTime,HttpServletRequest httpRequest ) throws UnauthorizedException {
+		Utils.matchString(httpRequest.getAttribute("username").toString(), username);
 		ApiResponse response = bookingService.getAllBooking(username,userType,dateTime);
 		if (Objects.nonNull(response)) {
 			return response;
@@ -49,7 +59,9 @@ public class BookingController {
 
 	}
 	@PutMapping("/{username}/{bookingId}")
-	public ApiResponse updateBooking(@PathVariable("username") String username,@PathVariable("bookingId") long bookingId,@RequestBody BookingRequest booking) {
+	@Authorize
+	public ApiResponse updateBooking(@PathVariable("username") String username,@PathVariable("bookingId") long bookingId,@RequestBody BookingRequest booking,HttpServletRequest httpRequest ) throws UnauthorizedException {
+		Utils.matchString(httpRequest.getAttribute("username").toString(), username);
 		ApiResponse response = bookingService.updateBooking(username,bookingId,booking);
 		if (Objects.nonNull(response)) {
 			return response;

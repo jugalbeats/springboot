@@ -2,6 +2,8 @@ package com.example.jugalbeats.controllers;
 
 import java.util.Objects;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.jugalbeats.config.security.Authorize;
+import com.example.jugalbeats.exception.UnauthorizedException;
 import com.example.jugalbeats.pojo.ApiResponse;
 import com.example.jugalbeats.pojo.WorkshopRequest;
 import com.example.jugalbeats.services.WorkshopService;
 import com.example.jugalbeats.utils.Constants;
+import com.example.jugalbeats.utils.Utils;
 
 /*
  * dhruv:2021
@@ -29,7 +34,9 @@ public class WorkshopController {
 	WorkshopService workshopService;
 
 	 @PostMapping("/{username}")
-	    public ApiResponse createWorkshop(@RequestBody WorkshopRequest request,@PathVariable("username") String username) {
+	 @Authorize
+	    public ApiResponse createWorkshop(@RequestBody WorkshopRequest request,@PathVariable("username") String username,HttpServletRequest httpRequest ) throws UnauthorizedException {
+			Utils.matchString(httpRequest.getAttribute("username").toString(), username);
 		         ApiResponse response=workshopService.createWorkshop(request, username);
 		         if(Objects.nonNull(response)) {
 		        	 return response;
@@ -47,7 +54,9 @@ public class WorkshopController {
      
  }
 	    @PutMapping("/{username}")
-	    public  ApiResponse updateWorkshop(@RequestBody WorkshopRequest request, @PathVariable("username") String username,@RequestParam Long workId) {
+	    @Authorize
+	    public  ApiResponse updateWorkshop(@RequestBody WorkshopRequest request, @PathVariable("username") String username,@RequestParam Long workId,HttpServletRequest httpRequest ) throws UnauthorizedException {
+			Utils.matchString(httpRequest.getAttribute("username").toString(), username);
 	         ApiResponse response=workshopService.updateWorkshop(workId, username, request);
 	         if(Objects.nonNull(response)) {
 	        	 return response;
@@ -56,7 +65,9 @@ public class WorkshopController {
      
  }
 	    @DeleteMapping("/{username}")
-	    public  ApiResponse deleteWork( @PathVariable("username") String username,@RequestParam Long workId) {
+	    @Authorize
+	    public  ApiResponse deleteWork( @PathVariable("username") String username,@RequestParam Long workId,HttpServletRequest httpRequest ) throws UnauthorizedException {
+			Utils.matchString(httpRequest.getAttribute("username").toString(), username);
 	         ApiResponse response=workshopService.deleteWorkshop(workId, username);
 	         if(Objects.nonNull(response)) {
 	        	 return response;
@@ -65,7 +76,9 @@ public class WorkshopController {
      
  }
 	    @PostMapping("/{username}/apply")
-	    public  ApiResponse applyToWorkshop(@PathVariable("username") String username,@RequestParam Long workId) {
+	    @Authorize
+	    public  ApiResponse applyToWorkshop(@PathVariable("username") String username,@RequestParam Long workId,HttpServletRequest httpRequest ) throws UnauthorizedException {
+			Utils.matchString(httpRequest.getAttribute("username").toString(), username);
 	         ApiResponse response=workshopService.applyToWorkshop(workId, username);
 	         if(Objects.nonNull(response)) {
 	        	 return response;
@@ -75,7 +88,9 @@ public class WorkshopController {
  }
 	    
 	    @GetMapping("/{username}")
-	    public  ApiResponse getWorksshop( @PathVariable("username") String username) {
+	    @Authorize
+	    public  ApiResponse getWorksshop( @PathVariable("username") String username,HttpServletRequest httpRequest ) throws UnauthorizedException {
+			Utils.matchString(httpRequest.getAttribute("username").toString(), username);
 	         ApiResponse response=workshopService.getWorkshop(username);
 	         if(Objects.nonNull(response)) {
 	        	 return response;

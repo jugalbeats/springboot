@@ -12,13 +12,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.jugalbeats.config.security.Authorize;
+import com.example.jugalbeats.exception.UnauthorizedException;
 import com.example.jugalbeats.pojo.ApiResponse;
 import com.example.jugalbeats.pojo.LoginRequest;
 import com.example.jugalbeats.pojo.RegistrationForm;
 import com.example.jugalbeats.services.RegistrationAndLoginServices;
 import com.example.jugalbeats.utils.Constants;
 import com.example.jugalbeats.utils.JwtTokenUtil;
+import com.example.jugalbeats.utils.Utils;
+
 import java.util.Objects;
+
+import javax.servlet.http.HttpServletRequest;
 /*
  * dhruv:2021
  * */
@@ -60,7 +66,9 @@ public class RegistrationAndLoginController {
     }
     
     @PutMapping("/{username}")
-    public ApiResponse updateUser(@RequestBody RegistrationForm registrationForm,@PathVariable("username") String username) {
+    @Authorize
+    public ApiResponse updateUser(@RequestBody RegistrationForm registrationForm,@PathVariable("username") String username,HttpServletRequest httpRequest ) throws UnauthorizedException {
+		Utils.matchString(httpRequest.getAttribute("username").toString(), username);
     	 ApiResponse response=registrationAndLoginServices.updateUser(registrationForm,username);
          if(Objects.nonNull(response)) {
         	 return response;

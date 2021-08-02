@@ -72,7 +72,6 @@ public class BookingService {
 	}
 
 	public ApiResponse updateBooking(String username, long bookingId, BookingRequest bookingRequest) {
-		// TODO Auto-generated method stub
 		
 		Optional<Booking> booking=bookingRepository.findById(bookingId);
 		if(!booking.isPresent()) {
