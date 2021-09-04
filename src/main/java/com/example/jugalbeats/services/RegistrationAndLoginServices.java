@@ -79,7 +79,7 @@ public class RegistrationAndLoginServices implements UserDetailsService {
 
 		final String token = jwtTokenUtil.generateToken(userDetails);
 
-        return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE, new JwtResponse(token));
+        return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE, new JwtResponse(token, user.getCustomerType()));
        }
        catch(Exception e) {
            return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE, "Email/username or password is wrong");

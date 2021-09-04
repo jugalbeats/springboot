@@ -26,4 +26,7 @@ public class Constants {
     public static final String AUTH_TOKEN_EXPIRED = "Auth token is Expired";
     public static final String INVALID_TOKEN = "Token is invalid";
 
+    public static final String NEW_BOOKING_MAIL_SUBJECT = "New Booking";
+    public static final String NEW_BOOKING_MAIL_MESSAGE = "You have been booked by a client for an occasion. Please login to your portal to confirm.";
+
 }

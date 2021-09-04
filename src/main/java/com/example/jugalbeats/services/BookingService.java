@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import com.example.jugalbeats.enums.BookingStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,9 @@ public class BookingService {
 	
 	@Autowired
 	private BookingRepository bookingRepository;
+
+	@Autowired
+	private EmailService emailService;
 	
 	  @Autowired
 	  private UsersDao usersDao;
@@ -66,7 +70,9 @@ public class BookingService {
         booking.setEventType(bookingRequest.getEventType());
         booking.setIsDeleted(false);
         booking.setCreatedBy(bookingRequest.getUsernameClient());
+        booking.setBookingStatus(BookingStatus.PENDING.getValue());
         bookingRepository.save(booking);
+        emailService.sendEmail(Constants.NEW_BOOKING_MAIL_MESSAGE, Constants.NEW_BOOKING_MAIL_SUBJECT,userArtist.getEmail());
         return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE, "Booking Request is Successful");	
 
 	}
