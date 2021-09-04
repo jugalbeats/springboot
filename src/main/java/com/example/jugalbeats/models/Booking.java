@@ -46,7 +46,8 @@ public class Booking extends BaseModel {
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_name_artist", referencedColumnName = "user_name", nullable = false)
 	private UsersModel userNameArtist;
-	
+
+	private String bookingStatus;
 
 	@Column(nullable = true)
 	private String createdBy;
