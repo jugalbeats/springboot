@@ -26,5 +26,7 @@ public class BookingRequest {
 	
 	private Boolean isDeleted;
 	
+	private int bookingStatus;
+
 
 }

@@ -91,9 +91,21 @@ public class BookingService {
         booking.get().setEventType(bookingRequest.getEventType());
         booking.get().setUpdatedBy(username);
         booking.get().setIsDeleted(bookingRequest.getIsDeleted());
+        booking.get().setBookingStatus(mapBookinStatus(bookingRequest.getBookingStatus()));
         bookingRepository.save(booking.get());
         return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE, "Booking Request is Successful");	
 
+	}
+
+	public String mapBookinStatus(int bookingStatusCode){
+		String bookingStatus = BookingStatus.PENDING.getValue();
+		if(bookingStatusCode==0){
+			bookingStatus = BookingStatus.ACCEPTED.getValue();
+		}
+		else if(bookingStatusCode==1){
+			bookingStatus = BookingStatus.DECLINED.getValue();
+		}
+		return bookingStatus;
 	}
 	  
 	  
