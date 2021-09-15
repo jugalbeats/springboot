@@ -33,7 +33,7 @@ public class BookingController {
 	private BookingService bookingService;
 
 	@PostMapping
-    @Authorize
+   // @Authorize
 	public ApiResponse createBooking(@RequestBody BookingRequest booking,HttpServletRequest httpRequest ) throws UnauthorizedException {
 		Utils.matchString(httpRequest.getAttribute("username").toString(), booking.getUsernameClient());
 		
@@ -46,7 +46,7 @@ public class BookingController {
 	}
 
 	@GetMapping("/{username}")
-	@Authorize
+	//@Authorize
 	public ApiResponse getBooking(@PathVariable("username") String username,
 			@RequestParam(required = true, name = "userType") String userType,
 			@RequestParam (required =  false,name="dateTime")Long dateTime,HttpServletRequest httpRequest ) throws UnauthorizedException {
@@ -59,7 +59,7 @@ public class BookingController {
 
 	}
 	@PutMapping("/{username}/{bookingId}")
-	@Authorize
+//	@Authorize
 	public ApiResponse updateBooking(@PathVariable("username") String username,@PathVariable("bookingId") long bookingId,@RequestBody BookingRequest booking,HttpServletRequest httpRequest ) throws UnauthorizedException {
 		Utils.matchString(httpRequest.getAttribute("username").toString(), username);
 		ApiResponse response = bookingService.updateBooking(username,bookingId,booking);
