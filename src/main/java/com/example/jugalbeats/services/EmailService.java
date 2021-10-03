@@ -32,7 +32,7 @@ public class EmailService {
         Session session=Session.getInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("techtiders@gmail.com", "Durgesh@123");
+                return new PasswordAuthentication("techtiders@gmail.com", "3941464954");
             }
         });
 
