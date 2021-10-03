@@ -35,7 +35,7 @@ public class BookingController {
 	@PostMapping
    // @Authorize
 	public ApiResponse createBooking(@RequestBody BookingRequest booking,HttpServletRequest httpRequest ) throws UnauthorizedException {
-		Utils.matchString(httpRequest.getAttribute("username").toString(), booking.getUsernameClient());
+		//Utils.matchString(httpRequest.getAttribute("username").toString(), booking.getUsernameClient());
 		
 		ApiResponse response = bookingService.createBooking(booking);
 		if (Objects.nonNull(response)) {
@@ -50,7 +50,7 @@ public class BookingController {
 	public ApiResponse getBooking(@PathVariable("username") String username,
 			@RequestParam(required = true, name = "userType") String userType,
 			@RequestParam (required =  false,name="dateTime")Long dateTime,HttpServletRequest httpRequest ) throws UnauthorizedException {
-		Utils.matchString(httpRequest.getAttribute("username").toString(), username);
+		//Utils.matchString(httpRequest.getAttribute("username").toString(), username);
 		ApiResponse response = bookingService.getAllBooking(username,userType,dateTime);
 		if (Objects.nonNull(response)) {
 			return response;
@@ -61,7 +61,7 @@ public class BookingController {
 	@PutMapping("/{username}/{bookingId}")
 //	@Authorize
 	public ApiResponse updateBooking(@PathVariable("username") String username,@PathVariable("bookingId") long bookingId,@RequestBody BookingRequest booking,HttpServletRequest httpRequest ) throws UnauthorizedException {
-		Utils.matchString(httpRequest.getAttribute("username").toString(), username);
+		//Utils.matchString(httpRequest.getAttribute("username").toString(), username);
 		ApiResponse response = bookingService.updateBooking(username,bookingId,booking);
 		if (Objects.nonNull(response)) {
 			return response;
