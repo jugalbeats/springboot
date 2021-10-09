@@ -45,6 +45,7 @@ public class BookingService {
 			if(dateTime>0)
 				bookings=bookingRepository.getBookingByArtistUsernameDateTime(username, dateTime);
 			else bookings=bookingRepository.getBookingByArtistUsername(username);
+			logger.info("response of booking {}", bookings);
 		}
 		if(userType.equalsIgnoreCase(UserType.CLIENT.getValue())) {
 			bookings=bookingRepository.getBookingByClientUsername(username);
