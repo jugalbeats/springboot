@@ -1,9 +1,9 @@
 package com.example.jugalbeats.services;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import com.example.jugalbeats.utils.Utils;
 import org.jboss.logging.Logger;
 import org.springframework.stereotype.Service;
-import sun.rmi.runtime.Log;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -32,7 +32,7 @@ public class EmailService {
         Session session=Session.getInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("techtiders@gmail.com", "3941464954");
+                return new PasswordAuthentication("booking.jugalbeats@gmail.com", "qwerty@123");
             }
         });
 
