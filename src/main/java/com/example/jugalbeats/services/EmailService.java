@@ -17,7 +17,7 @@ public class EmailService {
 
     private final String smtpHost = "smtp.gmail.com";
     private final String smtpPort = "465";
-    private final String mailFrom = "techtiders@gmail.com";
+    private final String mailFrom = "booking.jugalbeats@gmail.com";
 
     public void sendEmail(String message, String subject, String mailTo) {
 
