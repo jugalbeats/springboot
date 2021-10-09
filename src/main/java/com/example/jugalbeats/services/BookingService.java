@@ -6,6 +6,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 import com.example.jugalbeats.enums.BookingStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +26,8 @@ import com.example.jugalbeats.utils.Constants;
  * */
 @Service
 public class BookingService {
+
+	Logger logger = LoggerFactory.getLogger(BookingService.class);
 	
 	@Autowired
 	private BookingRepository bookingRepository;
@@ -31,11 +35,12 @@ public class BookingService {
 	@Autowired
 	private EmailService emailService;
 	
-	  @Autowired
-	  private UsersDao usersDao;
+	@Autowired
+	private UsersDao usersDao;
 
 	public ApiResponse getAllBooking(String username, String userType, Long dateTime) {
 		List<Booking> bookings=new ArrayList<>();
+		logger.info("Get booking for {} and type {}", username, userType);
 		if(userType.equalsIgnoreCase(UserType.ARTIST.getValue())) {
 			if(dateTime>0)
 				bookings=bookingRepository.getBookingByArtistUsernameDateTime(username, dateTime);
@@ -45,9 +50,6 @@ public class BookingService {
 			bookings=bookingRepository.getBookingByClientUsername(username);
 		}
         return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE,bookings);
-
-		
-		
 	}
 
 	public ApiResponse createBooking(BookingRequest bookingRequest) {
