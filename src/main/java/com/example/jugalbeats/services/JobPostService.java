@@ -1,8 +1,10 @@
 package com.example.jugalbeats.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +19,10 @@ import com.example.jugalbeats.models.UsersModel;
 import com.example.jugalbeats.models.Workshop;
 import com.example.jugalbeats.models.WorkshopApplicant;
 import com.example.jugalbeats.pojo.ApiResponse;
+import com.example.jugalbeats.pojo.GetApplicantResponse;
 import com.example.jugalbeats.pojo.JobPostRequest;
 import com.example.jugalbeats.utils.Constants;
+import com.google.gson.JsonObject;
 /*
  * dhruv:2021
  * */
@@ -95,6 +99,25 @@ public class JobPostService {
 		{		applicantRepo.deleteJobApplicantByJobid(id);}
 		jobPostRepository.deleteById(id);
         return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE,"job post deleted successfully");
+	}
+ // create enum for status
+	public ApiResponse getJobApplicant(Long jobId, String username,String status) {
+		JobPost workshop=jobPostRepository.findJobPostByUsernameAndJobId(username, jobId);
+		if(Objects.isNull(workshop)) {
+	        return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE, "Job not found");
+		}
+		List<JobApplicant> jobApp=null;
+		if(!status.isEmpty() && Objects.nonNull(status)) {
+			jobApp =applicantRepo.getApplicantNames(jobId, status);
+		    }
+		else {jobApp=applicantRepo.getApplicantNames(jobId);}
+		    List<GetApplicantResponse> response=new ArrayList<>();
+		jobApp.parallelStream().forEach(app-> {
+			response.add(GetApplicantResponse.builder().fullname(app.getApplyBy().getFullName()).genre(app.getApplyBy().getGenre())
+					.imageUrl(app.getApplyBy().getProfileImage()).location(app.getApplyBy().getLocation()).profession(app.getApplyBy().getProfession())
+					.username(app.getApplyBy().getUsername()).build());
+		});
+        return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE, response);	
 	}
 
 }

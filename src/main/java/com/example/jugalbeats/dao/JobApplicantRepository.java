@@ -1,5 +1,6 @@
 package com.example.jugalbeats.dao;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,9 +16,14 @@ public interface JobApplicantRepository  extends JpaRepository<JobApplicant, Lon
 	long countWorkshopApplicants( @Param("jobId") long jobId, 
 			@Param("status") String status);
 	
-	@Query(value = "select apply_by  from  job_applicant r where job_post_id = :jobId and status = :status",nativeQuery = true)
-	Set<String> getApplicantNames( @Param("jobId") long jobId, 
+	@Query(value = "select DISTINCT r.*  from  job_applicant r where job_post_id = :jobId",nativeQuery = true)
+	List<JobApplicant> getApplicantNames( @Param("jobId") long jobId 
+			);
+	
+	@Query(value = "select DISTINCT r.*  from  job_applicant r where job_post_id = :jobId and status = :status",nativeQuery = true)
+	List<JobApplicant> getApplicantNames( @Param("jobId") long jobId, 
 			@Param("status") String status);
+	
 	
 	@Modifying
 	@Query(value="DELETE from job_applicant where job_post_id = :jobId ",nativeQuery = true)
