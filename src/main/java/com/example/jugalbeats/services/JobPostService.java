@@ -109,7 +109,7 @@ public class JobPostService {
 			return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE, "Job not found");
 		}
 		List<JobApplicant> jobApp = new ArrayList<>();;
-		if (!status.isEmpty() && !Objects.isNull(status)) {
+		if (!Objects.isNull(status)) {
 			jobApp = applicantRepo.getApplicantNames(jobId, status);
 		} else {
 			jobApp = applicantRepo.getApplicantNames(jobId);
