@@ -108,15 +108,15 @@ public class JobPostService {
 		if (Objects.isNull(workshop)) {
 			return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE, "Job not found");
 		}
-		List<JobApplicant> jobApp = null;
+		List<JobApplicant> jobApp = new ArrayList<>();;
 		if (!status.isEmpty() && !Objects.isNull(status)) {
 			jobApp = applicantRepo.getApplicantNames(jobId, status);
 		} else {
 			jobApp = applicantRepo.getApplicantNames(jobId);
 		}
 		List<GetApplicantResponse> response = new ArrayList<>();
-		if (Objects.isNull(status)) {
-			return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE, "No Job applicants");
+		if (Objects.isNull(jobApp)) {
+			return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE, "no applicant found");
 		}
 		jobApp.parallelStream().forEach(app -> {
 			response.add(GetApplicantResponse.builder().fullname(app.getApplyBy().getFullName())
