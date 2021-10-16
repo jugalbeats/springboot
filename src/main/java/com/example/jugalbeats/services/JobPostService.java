@@ -122,7 +122,7 @@ public class JobPostService {
 			response.add(GetApplicantResponse.builder().fullname(app.getApplyBy().getFullName())
 					.genre(app.getApplyBy().getGenre()).imageUrl(app.getApplyBy().getProfileImage())
 					.location(app.getApplyBy().getLocation()).profession(app.getApplyBy().getProfession())
-					.username(app.getApplyBy().getUsername()).build());
+					.username(app.getApplyBy().getUsername()).status(app.getStatus()).build());
 		});
 		return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE, response);
 	}

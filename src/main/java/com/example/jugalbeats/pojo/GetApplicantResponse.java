@@ -17,4 +17,5 @@ public class GetApplicantResponse {
 	private String profession;
 	private String genre;
 	private String imageUrl;
+	private String status;
 }
