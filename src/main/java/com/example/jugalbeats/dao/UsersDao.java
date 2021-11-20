@@ -17,7 +17,9 @@ public interface UsersDao extends CrudRepository<UsersModel, Long> {
     
      UsersModel getUsersDaoByUsernameAndPassword(String username, String password);
 
+     @Query(value="select * from users where User_name = ?1", nativeQuery = true)
      UsersModel findByUsername(String userName);
+
      Page<UsersModel> findByCustomerType(String customerType, Pageable pageable);
  	
      @Query(value="select DISTINCT j.* from  users j where customer_type iLIKE %:customerType% and profession iLIKE %:profession% ",nativeQuery = true)
