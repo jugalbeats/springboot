@@ -17,7 +17,7 @@ public interface BookingRepository extends CrudRepository<Booking,Long>{
 	@Query(value = "select DISTINCT b.* from  booking b where user_name_client = ?1;",nativeQuery = true)
 	List<Booking> getBookingByClientUsername(String username);
 	
-	@Query(value = "select DISTINCT b.* from  booking b where user_name_artist = ?1;",nativeQuery = true)
+	@Query(value = "select DISTINCT b.* from  booking b where user_name_artist = ?1",nativeQuery = true)
 	List<Booking> getBookingByArtistUsername(String username);
 	
 	@Query(value = "select DISTINCT b.* from  booking b where user_name_artist = :username and date_time = :dateTime ",nativeQuery = true)
