@@ -78,4 +78,15 @@ public class JobPostController {
          return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE);
      
  }
+	    @GetMapping("/{username}/apply")
+	    @Authorize
+	    public  ApiResponse getApplicants(@PathVariable("username") String username,@RequestParam Long jobId,@RequestParam(required =  false) String status,HttpServletRequest httpRequest ) throws UnauthorizedException {
+			Utils.matchString(httpRequest.getAttribute("username").toString(), username);
+	         ApiResponse response=jobPostService.getJobApplicant(jobId, username,status);
+	         if(Objects.nonNull(response)) {
+	        	 return response;
+	         }
+         return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE);
+     
+ }
 }

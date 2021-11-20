@@ -14,12 +14,12 @@ public class RExceptionHandler {
 				System.currentTimeMillis());
 		return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
 	}
-	@ExceptionHandler
-	public ResponseEntity<ErrorResponse> handleException(Exception except) {
-		ErrorResponse error = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), except.getMessage(),
-				System.currentTimeMillis());
-		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-	}
+//	@ExceptionHandler
+//	public ResponseEntity<ErrorResponse> handleException(Exception except) {
+//		ErrorResponse error = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), except.getMessage(),
+//				System.currentTimeMillis());
+//		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+//	}
 	@ExceptionHandler
 	public ResponseEntity<ErrorResponse> handleJSONParseException(HttpMessageNotReadableException except) {
 		ErrorResponse error = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "Invalid JSON string",
