@@ -49,7 +49,7 @@ public class BookingController {
 	//@Authorize
 	public ApiResponse getBooking(@PathVariable("username") String username,
 			@RequestParam(required = true, name = "userType") String userType,
-			@RequestParam (required =  false,name="dateTime")Long dateTime,HttpServletRequest httpRequest ) throws UnauthorizedException {
+			@RequestParam (required =  false,name="dateTime", defaultValue = "0")Long dateTime,HttpServletRequest httpRequest ) throws UnauthorizedException {
 		//Utils.matchString(httpRequest.getAttribute("username").toString(), username);
 		ApiResponse response = bookingService.getAllBooking(username,userType,dateTime);
 		if (Objects.nonNull(response)) {
