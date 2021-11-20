@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import com.example.jugalbeats.models.JobPost;
 import com.example.jugalbeats.models.UsersModel;
 
+
 public interface UsersDao extends CrudRepository<UsersModel, Long> {
 
      UsersModel findByEmail(String email);
@@ -17,7 +18,7 @@ public interface UsersDao extends CrudRepository<UsersModel, Long> {
     
      UsersModel getUsersDaoByUsernameAndPassword(String username, String password);
 
-     @Query(value="select * from users where User_name = ?1", nativeQuery = true)
+     @Query(value="select * from users where user_name = ?1", nativeQuery = true)
      UsersModel findByUsername(String userName);
 
      Page<UsersModel> findByCustomerType(String customerType, Pageable pageable);
