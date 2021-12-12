@@ -40,7 +40,7 @@ public class JobPostController {
     @PostMapping()
     //@Authorize
     public ApiResponse createJob(@RequestBody JobPostRequest job, HttpServletRequest httpRequest) throws UnauthorizedException {
-        Utils.matchString(httpRequest.getAttribute("username").toString(), job.getUsername());
+        //Utils.matchString(httpRequest.getAttribute("username").toString(), job.getUsername());
         ApiResponse response = jobPostService.postJob(job);
         if (Objects.nonNull(response)) {
             return response;
