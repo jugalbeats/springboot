@@ -15,10 +15,10 @@ public interface JobPostRepository extends CrudRepository<JobPost, Long>{
 	
 	List<JobPost> getAllByUserNameJobPost(UsersModel userNameJobPost);
 	
-	@Query(value="select DISTINCT j.* from  job_post j where title iLIKE %:searchStr% and payment between :min and :max",nativeQuery = true)
+	@Query(value="select DISTINCT j.* from  job_post j where requirement iLIKE %:searchStr% and payment between :min and :max",nativeQuery = true)
 	Page<JobPost> findJobPostByTitle(@Param("searchStr") String searchStr,@Param("min") long min,@Param("max") long max,Pageable pageable);
     
-	@Query(value="select DISTINCT j.* from  job_post j where title iLIKE %:searchStr%",nativeQuery = true)
+	@Query(value="select DISTINCT j.* from  job_post j where requirement iLIKE %:searchStr%",nativeQuery = true)
 	Page<JobPost> findJobPostByTitle(@Param("searchStr") String searchStr,Pageable pageable);
 	
 	@Query(value="select DISTINCT j.* from  job_post j where id = :id and user_name_job_post = :username",nativeQuery = true)
