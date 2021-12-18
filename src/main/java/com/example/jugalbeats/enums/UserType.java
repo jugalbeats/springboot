@@ -2,7 +2,7 @@ package com.example.jugalbeats.enums;
 
 public enum UserType {
 	ARTIST("artist"),
-	CLIENT("client");
+	CLIENT("user");
 	private String value;
 
 	public String getValue() {
