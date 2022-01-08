@@ -72,7 +72,7 @@ public class JobPostController {
     }
 
     @PostMapping("/{username}/apply")
-    @Authorize
+    //@Authorize
     public ApiResponse applyToJob(@PathVariable("username") String username, @RequestParam Long jobId, HttpServletRequest httpRequest) throws UnauthorizedException {
         Utils.matchString(httpRequest.getAttribute("username").toString(), username);
         ApiResponse response = jobPostService.applyToJob(jobId, username);
