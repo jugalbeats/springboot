@@ -6,6 +6,11 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
+import com.example.jugalbeats.dao.BookingRepository;
+import com.example.jugalbeats.enums.BookingStatus;
+import com.example.jugalbeats.models.Booking;
+import com.example.jugalbeats.pojo.BookingRequest;
+import com.google.api.client.util.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,19 +21,19 @@ import com.example.jugalbeats.enums.ApplicantStatus;
 import com.example.jugalbeats.models.JobApplicant;
 import com.example.jugalbeats.models.JobPost;
 import com.example.jugalbeats.models.UsersModel;
-import com.example.jugalbeats.models.Workshop;
-import com.example.jugalbeats.models.WorkshopApplicant;
 import com.example.jugalbeats.pojo.ApiResponse;
 import com.example.jugalbeats.pojo.GetApplicantResponse;
 import com.example.jugalbeats.pojo.JobPostRequest;
 import com.example.jugalbeats.utils.Constants;
-import com.google.gson.JsonObject;
 
 /*
  * dhruv:2021
  * */
 @Service
 public class JobPostService {
+
+	@Autowired
+	private BookingRepository bookingRepository;
 
 	@Autowired
 	private JobPostRepository jobPostRepository;
@@ -81,10 +86,14 @@ public class JobPostService {
 		if (Objects.isNull(workshop)) {
 			return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE, "Job not found");
 		}
-		JobApplicant applicant = new JobApplicant();
+		JobApplicant applicant = applicantRepo.getApplicants(workshopId, username);
+		if(applicant!=null){
+			return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE, "This user has already applied for this job once");
+		}
+		applicant = new JobApplicant();
 		applicant.setApplyBy(user);
 		applicant.setPostId(workshop.get());
-		applicant.setStatus(ApplicantStatus.APPLIED.getValue());
+		applicant.setStatus(BookingStatus.PENDING.getValue());
 		applicantRepo.save(applicant);
 		return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE, "User Applied successfully");
 
@@ -108,7 +117,7 @@ public class JobPostService {
 		if (Objects.isNull(workshop)) {
 			return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE, "Job not found");
 		}
-		List<JobApplicant> jobApp = new ArrayList<>();;
+		List<JobApplicant> jobApp = new ArrayList<>();
 		if (!Objects.isNull(status)) {
 			jobApp = applicantRepo.getApplicantNames(jobId, status);
 		} else {
@@ -119,12 +128,49 @@ public class JobPostService {
 			return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE, "no applicant found");
 		}
 		jobApp.parallelStream().forEach(app -> {
-			response.add(GetApplicantResponse.builder().fullname(app.getApplyBy().getFullName())
+			response.add(GetApplicantResponse.builder()
+					.fullname(app.getApplyBy().getFullName())
 					.genre(app.getApplyBy().getGenre()).imageUrl(app.getApplyBy().getProfileImage())
 					.location(app.getApplyBy().getLocation()).profession(app.getApplyBy().getProfession())
-					.username(app.getApplyBy().getUsername()).status(app.getStatus()).build());
+					.username(app.getApplyBy().getUsername())
+					.status(app.getStatus()).build());
 		});
 		return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE, response);
 	}
 
+
+	public ApiResponse updateJobPostBooking(String username, long jobPostId, int bookingStatus) {
+		ApiResponse response = null;
+		JobApplicant applicant = applicantRepo.getApplicants(jobPostId, username);
+		applicant.setStatus(mapBookinStatus(bookingStatus));
+		applicantRepo.save(applicant);
+		if(bookingStatus==0){
+			JobPost jobPost = jobPostRepository.findJobPostByJobId(jobPostId);
+			Booking bookingRequest = new Booking();
+			bookingRequest.setCaption("Booked for jobId: " + jobPostId);
+			bookingRequest.setDateTime(System.currentTimeMillis());
+			bookingRequest.setDuration(jobPost.getDuration());
+			bookingRequest.setLocation(jobPost.getLocation());
+			bookingRequest.setPaymentStatus(null);
+			bookingRequest.setUserNameClient(jobPost.getUserNameJobPost());
+			bookingRequest.setUserNameArtist(usersDao.findByUsername(username));
+			bookingRequest.setEventType(jobPost.getOccasion());
+			bookingRequest.setIsDeleted(false);
+			bookingRequest.setCreatedBy(jobPost.getUserNameJobPost().getUsername());
+			bookingRequest.setBookingStatus(BookingStatus.ACCEPTED.getValue());
+			bookingRepository.save(bookingRequest);
+		}
+		return response;
+	}
+
+	private String mapBookinStatus(int bookingStatusCode){
+		String bookingStatus = BookingStatus.PENDING.getValue();
+		if(bookingStatusCode==0){
+			bookingStatus = BookingStatus.ACCEPTED.getValue();
+		}
+		else if(bookingStatusCode==1){
+			bookingStatus = BookingStatus.DECLINED.getValue();
+		}
+		return bookingStatus;
+	}
 }

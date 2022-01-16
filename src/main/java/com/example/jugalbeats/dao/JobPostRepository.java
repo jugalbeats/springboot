@@ -24,4 +24,7 @@ public interface JobPostRepository extends CrudRepository<JobPost, Long>{
 	@Query(value="select DISTINCT j.* from  job_post j where id = :id and user_name_job_post = :username",nativeQuery = true)
 	JobPost findJobPostByUsernameAndJobId(@Param("username")String username,@Param("id")Long id);
 
+	@Query(value="select DISTINCT j.* from  job_post j where id = :id",nativeQuery = true)
+	JobPost findJobPostByJobId(@Param("id")Long id);
+
 }
