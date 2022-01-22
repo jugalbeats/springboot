@@ -91,7 +91,7 @@ public class JobPostService {
 		if (Objects.isNull(workshop)) {
 			return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE, "Job not found");
 		}
-		JobApplicant applicant = applicantRepo.getApplicants(workshopId);
+		JobApplicant applicant = applicantRepo.getApplicants(workshopId, username);
 		if(applicant!=null){
 			return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE, "This user has already applied for this job once");
 		}
@@ -148,7 +148,7 @@ public class JobPostService {
 		ApiResponse response = null;
 		logger.info("username : " + username);
 		logger.info("id : " + jobPostId);
-		JobApplicant applicant = applicantRepo.getApplicants(jobPostId);
+		JobApplicant applicant = applicantRepo.getApplicants(jobPostId, username);
 		logger.info(applicant.toString());
 		logger.info(mapBookinStatus(bookingStatus));
 		applicant.setStatus(mapBookinStatus(bookingStatus));
@@ -168,6 +168,7 @@ public class JobPostService {
 			bookingRequest.setCreatedBy(jobPost.getUserNameJobPost().getUsername());
 			bookingRequest.setBookingStatus(BookingStatus.ACCEPTED.getValue());
 			bookingRepository.save(bookingRequest);
+			return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE, "Booking Request is Successful");
 		}
 		return response;
 	}

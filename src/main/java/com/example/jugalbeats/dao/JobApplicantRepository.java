@@ -24,8 +24,8 @@ public interface JobApplicantRepository  extends JpaRepository<JobApplicant, Lon
 	List<JobApplicant> getApplicantNames( @Param("jobId") long jobId, 
 			@Param("status") String status);
 
-	@Query(value = "Select * from job_applicant where job_post_id = ?1", nativeQuery = true)
-	JobApplicant getApplicants(long jobId);
+	@Query(value = "Select * from job_applicant where job_post_id = ?1 and apply_by = ?2", nativeQuery = true)
+	JobApplicant getApplicants(long jobId, String username);
 	
 	@Modifying
 	@Query(value="DELETE from job_applicant where job_post_id = :jobId ",nativeQuery = true)
