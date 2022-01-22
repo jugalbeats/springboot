@@ -6,11 +6,14 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
+import com.example.jugalbeats.controllers.JobPostController;
 import com.example.jugalbeats.dao.BookingRepository;
 import com.example.jugalbeats.enums.BookingStatus;
 import com.example.jugalbeats.models.Booking;
 import com.example.jugalbeats.pojo.BookingRequest;
 import com.google.api.client.util.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +34,8 @@ import com.example.jugalbeats.utils.Constants;
  * */
 @Service
 public class JobPostService {
+
+	Logger logger = LoggerFactory.getLogger(JobPostService.class);
 
 	@Autowired
 	private BookingRepository bookingRepository;
@@ -142,6 +147,7 @@ public class JobPostService {
 	public ApiResponse updateJobPostBooking(String username, long jobPostId, int bookingStatus) {
 		ApiResponse response = null;
 		JobApplicant applicant = applicantRepo.getApplicants(jobPostId, username);
+		logger.info(mapBookinStatus(bookingStatus));
 		applicant.setStatus(mapBookinStatus(bookingStatus));
 		applicantRepo.save(applicant);
 		if(bookingStatus==0){
@@ -171,6 +177,7 @@ public class JobPostService {
 		else if(bookingStatusCode==1){
 			bookingStatus = BookingStatus.DECLINED.getValue();
 		}
+		logger.info("booking mapped to : " + bookingStatus);
 		return bookingStatus;
 	}
 }
