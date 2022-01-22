@@ -5,6 +5,9 @@ import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 
 import com.example.jugalbeats.pojo.*;
+import com.example.jugalbeats.services.BookingService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +26,8 @@ import com.example.jugalbeats.utils.Utils;
 @RestController
 @RequestMapping("/api/v1/job-post")
 public class JobPostController {
+
+    Logger logger = LoggerFactory.getLogger(JobPostController.class);
 
     @Autowired
     private JobPostService jobPostService;
@@ -89,6 +94,8 @@ public class JobPostController {
 //	@Authorize
     public ApiResponse updateJobPostBooking(@PathVariable("username") String username, @PathVariable("jobPostId") long jobPostId, @RequestBody BookingRequest booking, HttpServletRequest httpRequest ) throws UnauthorizedException {
         //Utils.matchString(httpRequest.getAttribute("username").toString(), username);
+        logger.info("booking status is : " + booking.getBookingStatus());
+        logger.info("booking is : " + booking.toString());
         ApiResponse response = jobPostService.updateJobPostBooking(username,jobPostId,booking.getBookingStatus());
         if (Objects.nonNull(response)) {
             return response;

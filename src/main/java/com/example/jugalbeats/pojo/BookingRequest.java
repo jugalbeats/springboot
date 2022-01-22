@@ -28,5 +28,19 @@ public class BookingRequest {
 	
 	private int bookingStatus;
 
-
+	@Override
+	public String toString() {
+		return "BookingRequest{" +
+				"dateTime=" + dateTime +
+				", location='" + location + '\'' +
+				", paymentStatus='" + paymentStatus + '\'' +
+				", duration='" + duration + '\'' +
+				", caption='" + caption + '\'' +
+				", eventType='" + eventType + '\'' +
+				", usernameClient='" + usernameClient + '\'' +
+				", usernameArtist='" + usernameArtist + '\'' +
+				", isDeleted=" + isDeleted +
+				", bookingStatus=" + bookingStatus +
+				'}';
+	}
 }
