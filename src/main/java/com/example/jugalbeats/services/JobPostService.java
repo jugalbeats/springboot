@@ -109,7 +109,7 @@ public class JobPostService {
 		if (Objects.isNull(post)) {
 			return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE, "job not found");
 		}
-		if (!applicantRepo.getApplicantNames(id, ApplicantStatus.APPLIED.getValue()).isEmpty()) {
+		if (!applicantRepo.getApplicantNames(id).isEmpty()) {
 			applicantRepo.deleteJobApplicantByJobid(id);
 		}
 		jobPostRepository.deleteById(id);
