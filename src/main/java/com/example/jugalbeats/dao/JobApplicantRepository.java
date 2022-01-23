@@ -10,6 +10,9 @@ import org.springframework.data.repository.query.Param;
 
 import com.example.jugalbeats.models.JobApplicant;
 
+import javax.transaction.Transactional;
+
+@Transactional
 public interface JobApplicantRepository  extends JpaRepository<JobApplicant, Long>{
 
 	@Query(value = "select COUNT(*)  from  job_applicant r where job_post_id = :jobId and status = :status",nativeQuery = true)
@@ -21,7 +24,7 @@ public interface JobApplicantRepository  extends JpaRepository<JobApplicant, Lon
 			);
 	
 	@Query(value = "select DISTINCT r.*  from  job_applicant r where job_post_id = :jobId and status = :status",nativeQuery = true)
-	List<JobApplicant> getApplicantNames( @Param("jobId") long jobId, 
+	List<JobApplicant> getApplicantNames( @Param("jobId") long jobId,
 			@Param("status") String status);
 
 	@Query(value = "Select * from job_applicant where job_post_id = ?1 and apply_by = ?2", nativeQuery = true)
