@@ -57,7 +57,7 @@ public class JobPostController {
     @DeleteMapping("/{username}/{jobid}")
     //@Authorize
     public ApiResponse deleteJobs(@PathVariable("username") String username, @PathVariable("jobid") String jobid, HttpServletRequest httpRequest) throws UnauthorizedException {
-        Utils.matchString(httpRequest.getAttribute("username").toString(), username);
+        //Utils.matchString(httpRequest.getAttribute("username").toString(), username);
         ApiResponse response = jobPostService.deleteJobById(username, Long.parseLong(jobid));
         if (Objects.nonNull(response)) {
             return response;
