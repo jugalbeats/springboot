@@ -38,10 +38,10 @@ public class CalendarService {
         if(!Objects.nonNull(username)){
             return new ApiResponse(Constants.INTERNAL_SERVER_ERROR_CODE, "Username is empty");
         }
-        Calendar calendar = new Calendar();
         UsersModel user= usersDao.findByUsername(username);
         calendarForm.getDates().stream().forEach(date ->
         {
+            Calendar calendar = new Calendar();
             calendar.setDates(date);
             calendar.setUserNameArtist(user);
             calendarRepository.save(calendar);
