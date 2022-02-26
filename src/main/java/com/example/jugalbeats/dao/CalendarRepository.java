@@ -9,6 +9,6 @@ import java.util.List;
 @Transactional
 public interface CalendarRepository extends CrudRepository<Calendar, Long>{
 
-    List<Calendar> findByUserName(String userName);
+    List<Calendar> findByUserNameArtist(String userName);
 
 }

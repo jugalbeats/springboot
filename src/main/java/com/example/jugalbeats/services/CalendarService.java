@@ -28,7 +28,7 @@ public class CalendarService {
             return new ApiResponse(Constants.INTERNAL_SERVER_ERROR_CODE, "Username is empty");
         }
         List<String> dates = new ArrayList<>();
-        List<Calendar> getUnavailableDatesByUser = calendarRepository.findByUserName(username);
+        List<Calendar> getUnavailableDatesByUser = calendarRepository.findByUserNameArtist(username);
         getUnavailableDatesByUser.stream().forEach(calendar -> dates.add(calendar.getDates()));
 
         return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE, dates);
