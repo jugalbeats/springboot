@@ -20,7 +20,7 @@ public class Calendar {
     @Column(nullable = false)
     private String dates;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_name_artist", referencedColumnName = "user_name", nullable = false)
     private UsersModel userNameArtist;
 }
