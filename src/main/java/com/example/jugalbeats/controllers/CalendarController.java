@@ -27,7 +27,7 @@ public class CalendarController {
     @DeleteMapping("/{username}/{date}")
     public ApiResponse deleteDateForUser(@PathVariable("username") String username,
                                          @PathVariable("date") String date){
-
+        return calendarService.deleteDateByUser(username, date);
     }
 
 }
