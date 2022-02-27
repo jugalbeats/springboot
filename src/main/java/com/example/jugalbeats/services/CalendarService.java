@@ -51,4 +51,11 @@ public class CalendarService {
         return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE, "Posted successfully");
     }
 
+    public ApiResponse deleteDateByUser(String username, String date){
+        UsersModel user= usersDao.findByUsername(username);
+        Calendar calendar = calendarRepository.findByUserNameArtistAndDates(user, date);
+        calendarRepository.deleteById(calendar.getId());
+        return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE);
+    }
+
 }

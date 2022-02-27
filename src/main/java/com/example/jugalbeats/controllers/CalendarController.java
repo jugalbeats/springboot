@@ -24,4 +24,10 @@ public class CalendarController {
         return calendarService.setAvailableDatesByUsername(calendarForm, username);
     }
 
+    @DeleteMapping("/{username}/{date}")
+    public ApiResponse deleteDateForUser(@PathVariable("username") String username,
+                                         @PathVariable("date") String date){
+
+    }
+
 }

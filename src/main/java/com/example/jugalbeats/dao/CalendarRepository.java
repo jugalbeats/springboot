@@ -12,4 +12,6 @@ public interface CalendarRepository extends CrudRepository<Calendar, Long>{
 
     List<Calendar> findByUserNameArtist(UsersModel usersModel);
 
+    Calendar findByUserNameArtistAndDates(UsersModel usersModel, String dates);
+
 }
