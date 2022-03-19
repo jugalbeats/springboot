@@ -59,7 +59,8 @@ public class QuestionService {
 	}
 
 	public ApiResponse getQuestionAnswersByUserName(String userName){
-		List<UserQuestion> userQuestions = userQuestionRepo.findByNameQuesIdUserNameArtist(userName);
+		UsersModel usersModel = usersDao.findByUsername(userName);
+		List<UserQuestion> userQuestions = userQuestionRepo.findByNameQuesIdUserNameArtist(usersModel);
 		Map<String, String> quesAns = new HashMap<>();
 		userQuestions.stream().forEach(question ->
 				quesAns.put(question.getNameQuesId().getQuestionId().getQuestion(), question.getAnswer())
