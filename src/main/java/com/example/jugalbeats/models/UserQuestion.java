@@ -7,13 +7,14 @@ import lombok.NoArgsConstructor;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "user_question")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserQuestion extends BaseModel{
+public class UserQuestion implements Serializable {
 
     @EmbeddedId
     private EmbeddedUserNameQuesId nameQuesId;
