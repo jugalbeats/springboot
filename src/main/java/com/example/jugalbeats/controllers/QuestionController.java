@@ -2,6 +2,7 @@ package com.example.jugalbeats.controllers;
 
 import java.util.Objects;
 
+import com.example.jugalbeats.pojo.UserNameQuesIdRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,9 +19,6 @@ import com.example.jugalbeats.pojo.AvailabilityRequest;
 import com.example.jugalbeats.services.QuestionService;
 import com.example.jugalbeats.utils.Constants;
 
-/*
- * dhruv:2021
- * */
 @RestController
 @RequestMapping("/api/v1/question")
 public class QuestionController {
@@ -54,6 +52,16 @@ public class QuestionController {
 			return response;
 		}
 		return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE);
+	}
 
+	@PostMapping("/setQuestionAnswers")
+	public ApiResponse addAnswerByUser(@RequestBody UserNameQuesIdRequest request){
+		ApiResponse response = questionService.postQuestionWithUsername(request);
+		return response;
+	}
+
+	@GetMapping("/getAnswers/{username}")
+	public ApiResponse addAnswerByUser(@PathVariable("username") String username){
+		return questionService.getQuestionAnswersByUserName(username);
 	}
 }
