@@ -21,7 +21,8 @@ public class EmbeddedUserNameQuesId implements Serializable {
     @JoinColumn(name = "questionId", referencedColumnName = "id", nullable = false)
     private Question questionId;
 
-
+    public EmbeddedUserNameQuesId() {
+    }
 
     public EmbeddedUserNameQuesId(UsersModel userNameArtist, Question questionId) {
         this.userNameArtist = userNameArtist;
