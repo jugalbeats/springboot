@@ -47,14 +47,16 @@ public class QuestionService {
         return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE, "Question deleted successfully");	
 	}
 
-	public ApiResponse postQuestionWithUsername(UserNameQuesIdRequest request){
-		UsersModel usersModel = usersDao.findByUsername(request.getUserName());
-		Optional<Question> question = questionRepo.findById(request.getQuestionId());
-		EmbeddedUserNameQuesId userNameQuesId = new EmbeddedUserNameQuesId(usersModel, question.get());
-		UserQuestion userQuestion = new UserQuestion();
-		userQuestion.setNameQuesId(userNameQuesId);
-		userQuestion.setAnswer(request.getAnswer());
-		userQuestionRepo.save(userQuestion);
+	public ApiResponse postQuestionWithUsername(List<UserNameQuesIdRequest> requestList){
+		requestList.forEach(request -> {
+			UsersModel usersModel = usersDao.findByUsername(request.getUserName());
+			Optional<Question> question = questionRepo.findById(request.getQuestionId());
+			EmbeddedUserNameQuesId userNameQuesId = new EmbeddedUserNameQuesId(usersModel, question.get());
+			UserQuestion userQuestion = new UserQuestion();
+			userQuestion.setNameQuesId(userNameQuesId);
+			userQuestion.setAnswer(request.getAnswer());
+			userQuestionRepo.save(userQuestion);
+		});
 		return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE);
 	}
 

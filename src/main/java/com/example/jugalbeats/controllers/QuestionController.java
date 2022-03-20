@@ -1,5 +1,6 @@
 package com.example.jugalbeats.controllers;
 
+import java.util.List;
 import java.util.Objects;
 
 import com.example.jugalbeats.pojo.UserNameQuesIdRequest;
@@ -55,7 +56,7 @@ public class QuestionController {
 	}
 
 	@PostMapping("/setQuestionAnswers")
-	public ApiResponse addAnswerByUser(@RequestBody UserNameQuesIdRequest request){
+	public ApiResponse addAnswerByUser(@RequestBody List<UserNameQuesIdRequest> request){
 		ApiResponse response = questionService.postQuestionWithUsername(request);
 		return response;
 	}
