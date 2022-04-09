@@ -2,7 +2,7 @@ package com.example.jugalbeats.dao;
 
 import com.example.jugalbeats.models.Followers;
 import com.example.jugalbeats.models.FollowersModel;
-import com.sun.tools.javac.util.List;
+import java.util.*;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
