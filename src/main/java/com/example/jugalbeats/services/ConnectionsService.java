@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.example.jugalbeats.dao.FollowersRepo;
+import com.example.jugalbeats.models.Followers;
+import com.example.jugalbeats.models.FollowersModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +25,9 @@ public class ConnectionsService {
 
 	@Autowired
 	ConnectionsRepository connectionRepository;
+
+	@Autowired
+	FollowersRepo followersRepo;
 
 	@Autowired
 	UsersDao usersDao;
@@ -146,13 +152,15 @@ public class ConnectionsService {
 	}
 
 	public ApiResponse getFriendsList(String username) {
-		List<String> response=new ArrayList<>();
-		List<Connections> friends = new ArrayList<>();
-		friends = connectionRepository.findRequestByUsernameAndStatus(username, RequestStatus.ACCEPTED.getType());
-		if(!friends.isEmpty()) {
-			response=mapToConnectionResponse(friends,username);
-		}
-		return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE, response);
+//		List<String> response=new ArrayList<>();
+//		List<Connections> friends = new ArrayList<>();
+//		friends = connectionRepository.findRequestByUsernameAndStatus(username, RequestStatus.ACCEPTED.getType());
+//		if(!friends.isEmpty()) {
+//			response=mapToConnectionResponse(friends,username);
+//		}
+//		return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE, response);
+		List<FollowersModel> followersModelList = followersRepo.getFollowersList(username);
+		return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE, followersModelList);
 	}
 	
 	
@@ -166,6 +174,15 @@ public class ConnectionsService {
 				response.add(users.getSender().getUsername());
 		});
 		return response;
+	}
+
+	public ApiResponse saveFollower(String follower, String following){
+		FollowersModel followersModel = new FollowersModel();
+		Followers followers = new Followers(follower, following);
+		followersModel.setFollowers(followers);
+		followersModel.setStatus("OK");
+		followersRepo.save(followersModel);
+		return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE);
 	}
 
 }

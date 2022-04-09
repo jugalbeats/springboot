@@ -46,7 +46,7 @@ public class ConnectionsController {
 	@PostMapping("/accept")
 	@Authorize
 	public ApiResponse acceptRequest(@RequestParam(required=true)String sender, @RequestParam(required=true)String receiver,HttpServletRequest httpRequest ) throws UnauthorizedException {
-		Utils.matchString(httpRequest.getAttribute("username").toString(), receiver);
+		//Utils.matchString(httpRequest.getAttribute("username").toString(), receiver);
 		ApiResponse response = service.postAcceptRequest(sender, receiver);
 		if (Objects.nonNull(response)) {
 			return response;
@@ -122,6 +122,12 @@ public class ConnectionsController {
 		}
 		return new ApiResponse(Constants.FAILURE_CODE, Constants.FAILURE_MESSAGE);
 
-	}	
+	}
+
+	@PostMapping("/follow")
+	public ApiResponse followUser(@RequestParam(name = "follower") String follower, @RequestParam(name = "following") String following){
+		ApiResponse response = service.saveFollower(follower, following);
+		return response;
+	}
 
 }
