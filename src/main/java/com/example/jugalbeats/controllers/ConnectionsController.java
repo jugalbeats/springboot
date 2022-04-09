@@ -90,7 +90,7 @@ public class ConnectionsController {
 	}
 	
 	@GetMapping("/friend-list")
-	@Authorize
+	//@Authorize
 	public ApiResponse getFriendList(@RequestParam(required=true)String username,HttpServletRequest httpRequest ) throws UnauthorizedException {
 		Utils.matchString(httpRequest.getAttribute("username").toString(), username);
 		ApiResponse response = service.getFriendsList(username);
