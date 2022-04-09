@@ -1,8 +1,6 @@
 package com.example.jugalbeats.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
@@ -12,6 +10,8 @@ import java.io.Serializable;
 
 @Embeddable
 @Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Followers implements Serializable {

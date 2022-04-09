@@ -11,7 +11,7 @@ import javax.transaction.Transactional;
 @Transactional
 public interface FollowersRepo extends CrudRepository<FollowersModel, Followers> {
 
-    @Query(value = "select * from followers where follower = ?1", nativeQuery = true)
-    List<FollowersModel> getFollowersList(String username);
+    @Query(value = "select following from followers where follower = ?1", nativeQuery = true)
+    List<String> getFollowersList(String username);
 
 }

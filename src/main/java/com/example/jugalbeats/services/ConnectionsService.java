@@ -159,7 +159,7 @@ public class ConnectionsService {
 //			response=mapToConnectionResponse(friends,username);
 //		}
 //		return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE, response);
-		List<FollowersModel> followersModelList = followersRepo.getFollowersList(username);
+		List<String> followersModelList = followersRepo.getFollowersList(username);
 		return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE, followersModelList);
 	}
 	
