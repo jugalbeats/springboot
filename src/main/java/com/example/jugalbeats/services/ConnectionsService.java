@@ -1,8 +1,6 @@
 package com.example.jugalbeats.services;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import com.example.jugalbeats.dao.FollowersRepo;
 import com.example.jugalbeats.models.Followers;
@@ -152,15 +150,17 @@ public class ConnectionsService {
 	}
 
 	public ApiResponse getFriendsList(String username) {
-//		List<String> response=new ArrayList<>();
-//		List<Connections> friends = new ArrayList<>();
-//		friends = connectionRepository.findRequestByUsernameAndStatus(username, RequestStatus.ACCEPTED.getType());
-//		if(!friends.isEmpty()) {
-//			response=mapToConnectionResponse(friends,username);
-//		}
-//		return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE, response);
 		List<String> followersModelList = followersRepo.getFollowersList(username);
-		return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE, followersModelList);
+		List<Map<String, Object>> mapList = new ArrayList<>();
+		followersModelList.parallelStream().forEach(follower -> {
+			Map<String, Object> usersModel = new HashMap<>();
+			UsersModel user = usersDao.findByUsername(follower);
+			usersModel.put("fullName", user.getFullName());
+			usersModel.put("userName", user.getUsername());
+			usersModel.put("image", user.getProfileImage());
+			mapList.add(usersModel);
+		});
+		return new ApiResponse(Constants.SUCCESS_CODE, Constants.SUCCESS_MESSAGE, mapList);
 	}
 	
 	
